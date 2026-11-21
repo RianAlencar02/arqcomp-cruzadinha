@@ -1,0 +1,196 @@
+/* =========================================================
+   COMPUTER MAY CRY — estilo gótico retrô (pixel art)
+   ========================================================= */
+:root {
+  --bg: #0b0610;
+  --panel: #1a0b22;
+  --panel-2: #240f30;
+  --line: #4b1f7a;
+  --red: #e0113a;
+  --red-dark: #8f0b26;
+  --gold: #f2c14e;
+  --cyan: #3fe0d0;
+  --text: #f1e6ff;
+  --muted: #a592bd;
+  --ok: #1f9d55;
+  --bad: #c4162f;
+  --cell: 34px;
+  --pixel: "Press Start 2P", "Courier New", monospace;
+  --body: "VT323", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+.hidden { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 22px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% -10%, #3b0a2a 0%, transparent 60%),
+    linear-gradient(#0b0610, #12061a 60%, #1c0714);
+  background-attachment: fixed;
+}
+
+/* brasas subindo ao fundo */
+.embers {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .55;
+  background-image:
+    radial-gradient(2px 2px at 10% 90%, var(--red) 50%, transparent 52%),
+    radial-gradient(2px 2px at 30% 70%, var(--gold) 50%, transparent 52%),
+    radial-gradient(3px 3px at 55% 85%, var(--red) 50%, transparent 52%),
+    radial-gradient(2px 2px at 75% 60%, var(--gold) 50%, transparent 52%),
+    radial-gradient(3px 3px at 90% 95%, var(--red) 50%, transparent 52%);
+  background-size: 100% 100%;
+  animation: rise 9s linear infinite;
+}
+@keyframes rise { from { transform: translateY(30px); } to { transform: translateY(-60px); } }
+
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; }
+
+/* ---------- cabeçalho ---------- */
+.top { position: relative; z-index: 1; text-align: center; padding: 22px 12px 6px; }
+.logo {
+  margin: 0; font-family: var(--pixel); font-size: clamp(16px, 4vw, 34px); line-height: 1.5;
+  color: var(--text); text-shadow: 3px 3px 0 var(--red-dark), 6px 6px 0 #000;
+}
+.logo em { font-style: normal; color: var(--red); }
+.mode { margin: 6px 0 0; font-family: var(--pixel); font-size: 10px; color: var(--gold); letter-spacing: 1px; }
+
+/* ---------- cartões com borda pixelada ---------- */
+.card {
+  position: relative; z-index: 1;
+  background: var(--panel);
+  border: 4px solid var(--line);
+  box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000;
+  padding: 16px;
+}
+
+/* ---------- introdução ---------- */
+.intro {
+  max-width: 880px; margin: 26px auto; display: flex; gap: 24px; align-items: center;
+}
+.intro-art { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.intro-text h2 { font-family: var(--pixel); font-size: 16px; color: var(--gold); margin: 0 0 14px; }
+.intro-text p { margin: 0 0 12px; line-height: 1.15; }
+.intro-text strong { color: var(--red); }
+.tip { color: var(--cyan); }
+
+/* ---------- botões ---------- */
+.btn {
+  font-family: var(--pixel); font-size: 10px; color: #fff; cursor: pointer;
+  padding: 12px 10px; background: var(--red); border: 0;
+  box-shadow: inset -4px -4px 0 var(--red-dark), inset 4px 4px 0 #ff5577, 0 0 0 3px #000;
+  transition: transform .06s;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active { transform: translate(2px, 2px); }
+.btn.alt { background: #5a2a91; box-shadow: inset -4px -4px 0 #35165a, inset 4px 4px 0 #8a55c6, 0 0 0 3px #000; }
+.btn.danger { background: #2a2a3a; box-shadow: inset -4px -4px 0 #15151f, inset 4px 4px 0 #4a4a62, 0 0 0 3px #000; }
+.btn.big { font-size: 12px; padding: 16px 18px; margin-top: 8px; }
+.btn small { font-size: 9px; opacity: .85; }
+
+/* ---------- jogo ---------- */
+.game {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 22px auto 10px; padding: 0 14px;
+  display: grid; grid-template-columns: auto 1fr; gap: 22px;
+  grid-template-areas: "hero hero" "board side";
+  align-items: start;
+}
+.hero-panel { grid-area: hero; display: flex; align-items: center; gap: 16px; }
+.board-wrap { grid-area: board; }
+.side { grid-area: side; }
+
+.bubble {
+  flex: 1; position: relative; background: #000; border: 3px solid var(--gold);
+  padding: 10px 14px; color: var(--gold); min-height: 56px; display: flex; align-items: center;
+}
+.bubble::before {
+  content: ""; position: absolute; left: -14px; top: 50%; transform: translateY(-50%);
+  border: 8px solid transparent; border-right: 11px solid var(--gold);
+}
+.bubble p { margin: 0; line-height: 1.1; }
+
+.current-clue {
+  margin: 0 0 12px; min-height: 66px; padding: 8px 10px; background: #000;
+  border-left: 4px solid var(--red); line-height: 1.1; font-size: 21px;
+}
+.current-clue b { color: var(--gold); font-family: var(--pixel); font-size: 10px; display: block; margin-bottom: 4px; }
+.current-clue em { color: var(--muted); font-style: normal; }
+
+/* ---------- tabuleiro ---------- */
+.board { display: grid; gap: 2px; justify-content: center; }
+.blank { width: var(--cell); height: var(--cell); }
+.cell {
+  position: relative; width: var(--cell); height: var(--cell);
+  background: #f1e6ff; border: 2px solid #000;
+}
+.cell input {
+  width: 100%; height: 100%; border: 0; background: transparent; padding: 6px 0 0;
+  text-align: center; text-transform: uppercase; caret-color: transparent;
+  font-family: var(--pixel); font-size: 15px; color: #1a0b22; outline: none; cursor: pointer;
+}
+.cell .num {
+  position: absolute; top: 0; left: 2px; font-family: var(--body); font-size: 14px;
+  line-height: 1; color: #7a1030; pointer-events: none;
+}
+.cell.in-word { background: #ffe1a8; }
+.cell.active { background: var(--gold); box-shadow: 0 0 0 3px var(--red); z-index: 2; }
+.cell.ok { background: #8be2ad; }
+.cell.ok input { color: #0b3a1f; }
+.cell.bad { background: #ff9aa8; }
+.cell.bad input { color: #6b0716; }
+.cell.hint { background: #9defe6; }
+.cell.revealed { background: #c9b2f0; }
+.cell.active.ok, .cell.active.bad, .cell.active.hint, .cell.active.revealed { box-shadow: 0 0 0 3px var(--red); }
+
+/* ---------- lateral ---------- */
+.counter {
+  background: #000; border: 3px solid var(--cyan); padding: 10px; text-align: center; margin-bottom: 14px;
+}
+.counter .label { display: block; font-family: var(--pixel); font-size: 9px; color: var(--cyan); margin-bottom: 8px; }
+.counter .value { font-family: var(--pixel); font-size: 14px; color: var(--gold); }
+
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+.clues h3 {
+  font-family: var(--pixel); font-size: 11px; color: var(--red); margin: 14px 0 8px;
+  border-bottom: 3px solid var(--line); padding-bottom: 6px;
+}
+.clues ol { list-style: none; margin: 0; padding: 0; }
+.clues li {
+  display: flex; gap: 10px; padding: 6px 8px; margin-bottom: 4px; cursor: pointer;
+  line-height: 1.05; border-left: 4px solid transparent; background: var(--panel-2);
+}
+.clues li b { font-family: var(--pixel); font-size: 10px; color: var(--gold); min-width: 22px; padding-top: 3px; }
+.clues li:hover { background: #31143f; }
+.clues li.active { border-left-color: var(--gold); background: #3a1a4d; }
+.clues li.ok { border-left-color: var(--ok); color: #9cf0bd; }
+.clues li.bad { border-left-color: var(--bad); color: #ffb3bd; }
+
+/* ---------- vitória ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: 10; background: rgba(5, 0, 10, .85);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.victory { text-align: center; max-width: 460px; }
+.victory h2 { font-family: var(--pixel); color: var(--gold); font-size: 18px; margin: 14px 0; }
+
+.foot { position: relative; z-index: 1; text-align: center; color: var(--muted); font-size: 18px; padding: 18px 10px 26px; }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 860px) {
+  :root { --cell: 30px; }
+  .game { grid-template-columns: 1fr; grid-template-areas: "hero" "board" "side"; }
+  .intro { flex-direction: column; text-align: center; margin: 20px 14px; }
+  .hero-panel canvas.imp { display: none; }
+}
+@media (max-width: 420px) {
+  :root { --cell: 27px; }
+  .cell input { font-size: 12px; }
+  .actions { grid-template-columns: 1fr; }
+}

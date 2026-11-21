@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Computer May Cry — Cruzadinha do Caçador</title>
+  <meta name="description" content="Cruzadinha de Arquitetura Computacional com tema de caçada a demônios em pixel art.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="embers" aria-hidden="true"></div>
+
+  <header class="top">
+    <h1 class="logo"><span>COMPUTER</span> <em>MAY</em> <span>CRY</span></h1>
+    <p class="mode">MODO 1 · CRUZADINHA DO CAÇADOR</p>
+  </header>
+
+  <!-- ===== Introdução ===== -->
+  <main id="intro" class="card intro">
+    <div class="intro-art">
+      <canvas class="hero" data-scale="10" aria-label="Caçador de demônios em pixel art"></canvas>
+      <canvas class="imp" data-scale="7" aria-label="Demônio bug em pixel art"></canvas>
+    </div>
+    <div class="intro-text">
+      <h2>O Submundo dos Bytes</h2>
+      <p>
+        Em uma noite sem lua, o Data Center abandonado da Torre Carmesim foi tomado por
+        <strong>Bugs demoníacos</strong>. Eles devoraram a memória do sistema e agora
+        guardam 16 portões selados com os termos antigos da Arquitetura Computacional.
+      </p>
+      <p>
+        Você é o <strong>Caçador</strong>, último técnico capaz de enfrentá-los. Leia cada pista,
+        decifre o termo e escreva-o no tabuleiro para quebrar o selo de cada portão.
+      </p>
+      <p class="tip">Dica: se travar, use <b>Dica</b> para revelar uma letra ou <b>Resposta</b> para revelar a palavra.</p>
+      <button id="btn-start" class="btn big">▶ COMEÇAR A CAÇADA</button>
+    </div>
+  </main>
+
+  <!-- ===== Jogo ===== -->
+  <main id="game" class="game hidden">
+    <section class="card hero-panel">
+      <canvas class="hero" data-scale="6" aria-label="Caçador de demônios em pixel art"></canvas>
+      <div class="bubble"><p id="speech">Leia as pistas e selaremos os portões!</p></div>
+      <canvas class="imp" data-scale="4" aria-label="Demônio bug em pixel art"></canvas>
+    </section>
+
+    <section class="card board-wrap">
+      <p id="current-clue" class="current-clue"></p>
+      <div id="board" class="board" role="grid"></div>
+    </section>
+
+    <aside class="card side">
+      <div class="counter">
+        <span class="label">PORTÕES SELADOS</span>
+        <span id="status" class="value">0 de 16 palavras</span>
+      </div>
+
+      <div class="actions">
+        <button id="btn-check" class="btn">✔ CONFERIR</button>
+        <button id="btn-hint" class="btn alt">✦ DICA <small>(<span id="hints">0</span>)</small></button>
+        <button id="btn-reveal" class="btn alt">☠ RESPOSTA <small>(<span id="reveals">0</span>)</small></button>
+        <button id="btn-reset" class="btn danger">↺ REINICIAR</button>
+      </div>
+
+      <div class="clues">
+        <h3>HORIZONTAIS</h3>
+        <ol id="clues-h"></ol>
+        <h3>VERTICAIS</h3>
+        <ol id="clues-v"></ol>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ===== Vitória ===== -->
+  <div id="victory" class="overlay hidden">
+    <div class="card victory">
+      <canvas class="hero" data-scale="8" aria-label="Caçador de demônios em pixel art"></canvas>
+      <h2>MISSÃO CUMPRIDA!</h2>
+      <p>Todos os portões foram selados e o Data Center voltou a funcionar.</p>
+      <p id="victory-text"></p>
+      <button id="btn-again" class="btn big">↺ JOGAR DE NOVO</button>
+    </div>
+  </div>
+
+  <footer class="foot">Computer May Cry · Atividade de Arquitetura Computacional</footer>
+  <script src="script.js"></script>
+</body>
+</html>
