@@ -26,101 +26,49 @@ const WORDS = [
 const ROWS = 19;
 const COLS = 10;
 
-// ---------- Sprites originais em pixel art ----------
-const PALETTE = {
-  k: "#0a0610", h: "#4b1f7a", H: "#7a3fb8", v: "#3fe0d0", s: "#e2b48c",
-  b: "#d9fbff", g: "#8a8fa8", r: "#e0113a", R: "#b3123a", y: "#f2c14e",
-  G: "#14513a", o: "#ff8a1f", O: "#b34d00",
+// ---------- Imagens (pasta assets/) ----------
+// Para trocar uma imagem, salve o arquivo com o mesmo nome na pasta assets/.
+const ASSETS = {
+  card: "assets/protagonista-card1.png",
+  introHero: "assets/protagonista-cruzadinha-intro1.png",
+  introRival: "assets/rival-cruzadinha-intro1.png",
+  idle: "assets/protagonista-cruzadinha-jogo1.png",
+  think: "assets/protagonista-cruzadinha-pensando1.png",
+  win: "assets/protagonista-cruzadinha-comemorando1.png",
+  rival: "assets/rival-cruzadinha-jogo1.png",
+  victory: "assets/protagonista-cruzadinha-vitoria1.png",
+  bg: "assets/cenario-cruzadinha1.png",
 };
-const HERO = [
-  "....kkkkkk......",
-  "...khhhhhhk.....",
-  "..khhHHHHhhk....",
-  "..khkvvvvkhk....",
-  "..khkvvvvkhk..b.",
-  "..khhkkkkhhk.bb.",
-  "...kkhhhhkk.bb..",
-  "..khhhrrhhhkbbg.",
-  ".khhhhrrhhhgk...",
-  ".khshhrrhhhgk...",
-  ".khhhhrrhhhkk...",
-  "..khhhhhhhhk....",
-  "..khhhhhhhhk....",
-  "..kkhhkkhhkk....",
-  "..kkkkkkkkkk....",
-  "..kkk.kk.kkk....",
-];
-const HERO_WIN = [
-  "y.s.kkkkkk.s.y..",
-  "..hkhhhhhhkh....",
-  "..hkhHHHHhkh....",
-  "...khkvvvvkhk...",
-  "...khkvvvvkhk...",
-  "....khkkkkhk....",
-  "...khhhhhhhhk...",
-  "..khhhhrrhhhhk..",
-  "..khhhhrrhhhhk..",
-  "...khhhrrhhhk...",
-  "...khhhrrhhhk...",
-  "...khhhhhhhhk...",
-  "...kkhhhhhhkk...",
-  "...kkhhkkhhkk...",
-  "...kkk.kk.kkk...",
-  "...kkk.kk.kkk...",
-];
-const HERO_THINK = [
-  "....kkkkkk..yyy.",
-  "...khhhhhhk...y.",
-  "..khhHHHHhhk.yy.",
-  "..khkvvvvkhk.y..",
-  "..khkvvvvkhk.y..",
-  "..khhkkkkhhk....",
-  "...kkhhhhkk.y...",
-  "..khhhrrhhhk....",
-  ".khhhhrrhhhhk...",
-  ".khhhhrrhsskk...",
-  ".khhhhrrhsk.....",
-  "..khhhhhhhhk....",
-  "..khhhhhhhhk....",
-  "..kkhhkkhhkk....",
-  "..kkkkkkkkkk....",
-  "..kkk.kk.kkk....",
-];
-// Rival original: capuz verde-escuro, visor âmbar e lâmina laranja
-const RIVAL = [
-  "....kkkkkk......",
-  "...kGGGGGGk.....",
-  "..kGGGGGGGGk....",
-  "..kGkooookGk....",
-  "..kGkooookGk....",
-  "..kGGkkkkGGk....",
-  "...kkGGGGkk.....",
-  "..kGGGyyGGGk....",
-  "okGGGGyyGGGGk...",
-  "okGGGGyyGGGGk...",
-  "OkGGGGyyGGGGk...",
-  "gkGGGGGGGGGGk...",
-  ".kkGGGGGGGGkk...",
-  "..kGGkkkkGGk....",
-  "..kkk.kk.kkk....",
-  "..kkk.kk.kkk....",
-];
 
-function drawSprite(canvas, map, scale) {
-  const ctx = canvas.getContext("2d");
-  canvas.width = 16 * scale;
-  canvas.height = 16 * scale;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.imageSmoothingEnabled = false;
-  map.forEach((line, y) => {
-    for (let x = 0; x < 16; x++) {
-      const ch = line[x];
-      if (ch && ch !== "." && PALETTE[ch]) {
-        ctx.fillStyle = PALETTE[ch];
-        ctx.fillRect(x * scale, y * scale, scale, scale);
-      }
+// Carrega cada <img class="sprite">; se o arquivo não existir, mostra o placeholder.
+function loadSprite(img, asset) {
+  const slot = img.closest(".slot");
+  img.dataset.asset = asset;
+  delete img.dataset.triedFallback;
+  img.onload = () => slot && slot.classList.remove("missing");
+  img.onerror = () => {
+    const fb = img.dataset.fallback;
+    if (fb && !img.dataset.triedFallback && fb !== asset) {
+      img.dataset.triedFallback = "1";
+      img.src = ASSETS[fb];
+      return;
     }
-  });
+    if (slot) slot.classList.add("missing");
+  };
+  if (slot) slot.classList.add("missing");
+  img.src = ASSETS[asset];
+}
+
+function initImages() {
+  document.querySelectorAll("img.sprite").forEach((img) => loadSprite(img, img.dataset.asset));
+  // cenário: só aparece por cima do desenho padrão se o arquivo existir
+  const bg = $("bg-img");
+  if (bg) {
+    bg.style.display = "none";
+    bg.onload = () => { bg.style.display = ""; };
+    bg.onerror = () => { bg.style.display = "none"; };
+    bg.src = ASSETS.bg;
+  }
 }
 
 // ---------- Estado ----------
@@ -367,10 +315,10 @@ function conferir() {
   if (ok > lastOk) { setPose("win", 1800); flashRank("SSS", "RANK SSS!"); }
   lastOk = ok;
   if (ok === WORDS.length) {
-    say("Barreira rompida! Rank SSS no estilo!");
+    say("Jackpot! Rank SSS no estilo!");
     showVictory();
   } else {
-    say(`${ok} certas, ${wrong} erradas, ${pending} incompletas. Siga em frente!`);
+    say(`${ok} certas, ${wrong} erradas, ${pending} incompletas. Vamos nessa!`);
     $("status").textContent = `${ok} de ${WORDS.length} palavras`;
   }
   $("status").textContent = `${ok} de ${WORDS.length} palavras`;
@@ -379,7 +327,7 @@ function conferir() {
 function dica() {
   const w = WORDS[activeWord];
   const target = cellsOf(w).find((c) => c.input.value !== c.correct);
-  if (!target) { say("Essa palavra já está certa. Escolha outra pista!"); return; }
+  if (!target) { say("Eu já acertei essa palavra!"); return; }
   target.input.value = target.correct;
   clearMarks(target);
   target.el.classList.add("hint");
@@ -400,7 +348,7 @@ function resposta() {
   });
   reveals++;
   updateCounters();
-  say("Palavra revelada. Nem todo caçador vence sozinho.");
+  say("Palavra revelada. Talvez até mesmo um computador possa chorar...");
 }
 
 function reiniciar() {
@@ -411,7 +359,7 @@ function reiniciar() {
   $("status").textContent = `0 de ${WORDS.length} palavras`;
   $("victory").classList.add("hidden");
   updateCounters();
-  say("O tabuleiro foi limpo. Recomeçar é parte da caçada!");
+  say("Jogo reiniciado! Essa festa tá ficando louca, vamos agitar!");
   selectWord(0, true);
 }
 
@@ -423,11 +371,14 @@ function updateCounters() {
 function say(text) { $("speech").textContent = text; }
 
 function setPose(pose, ms) {
-  const c = $("hero-main");
-  if (!c) return;
+  const img = $("hero-main");
+  if (!img) return;
   clearTimeout(poseTimer);
-  const map = pose === "win" ? HERO_WIN : pose === "think" ? HERO_THINK : HERO;
-  drawSprite(c, map, 6);
+  img.dataset.fallback = pose === "idle" ? "" : "idle";
+  loadSprite(img, pose);
+  img.closest(".slot").classList.toggle("pose-" + pose, true);
+  ["idle", "win", "think"].filter((p) => p !== pose)
+    .forEach((p) => img.closest(".slot").classList.remove("pose-" + p));
   if (ms) poseTimer = setTimeout(() => setPose("idle"), ms);
 }
 
@@ -492,9 +443,7 @@ function init() {
   buildBoard();
   buildClues();
   onBoardEvents();
-  document.querySelectorAll("canvas.hero").forEach((c) => drawSprite(c, HERO, Number(c.dataset.scale) || 6));
-  document.querySelectorAll("canvas.rival").forEach((c) => drawSprite(c, RIVAL, Number(c.dataset.scale) || 6));
-  drawSprite($("hero-win"), HERO_WIN, 8);
+  initImages();
   drawBackground();
   $("mode-1").addEventListener("click", () => showScreen("intro"));
   $("btn-back").addEventListener("click", () => showScreen("menu"));

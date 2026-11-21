@@ -12,6 +12,7 @@
 </head>
 <body>
   <canvas id="bg" class="bg" aria-hidden="true"></canvas>
+  <img id="bg-img" class="bg bg-img" data-asset="bg" alt="" aria-hidden="true">
   <div class="embers" aria-hidden="true"></div>
 
   <header class="top">
@@ -23,8 +24,8 @@
   <main id="menu" class="menu">
     <button class="card mode-card" id="mode-1">
       <span class="mode-tag">MODO 1</span>
-      <canvas class="hero" data-scale="6" aria-hidden="true"></canvas>
-      <strong>Cruzadinha do Caçador</strong>
+      <span class="slot size-s" data-label="protagonista-card1.png"><img class="sprite" data-asset="card" alt=""></span>
+      <strong>Cruzadinha de Dante</strong>
       <small>Decifre os termos de Arquitetura Computacional.</small>
     </button>
     <div class="card mode-card locked" aria-disabled="true">
@@ -44,16 +45,16 @@
   <!-- ===== Introdução ===== -->
   <main id="intro" class="card intro hidden">
     <div class="intro-art">
-      <canvas class="hero" data-scale="10" aria-label="Caçador de demônios em pixel art"></canvas>
-      <canvas class="rival" data-scale="7" aria-label="Vex, o rival, em pixel art"></canvas>
+      <span class="slot size-l" data-label="protagonista-cruzadinha-intro1.png"><img class="sprite" data-asset="introHero" alt="Protagonista"></span>
+      <span class="slot size-m" data-label="rival-cruzadinha-intro1.png"><img class="sprite" data-asset="introRival" alt="Rival"></span>
     </div>
     <div class="intro-text">
       <h2>Contrato Incomum</h2>
       <p>
         A agência Computer May Cry acaba de receber um contrato incomum: um demônio cibernético invadiu o
-        mainframe central da cidade e corrompeu toda a arquitetura do sistema. Enquanto o Caçador
+        mainframe central da cidade e corrompeu toda a arquitetura do sistema. Enquanto Dante
         investiga a origem do ataque, ele encontra uma assinatura familiar no código-fonte — a marca de
-        seu irmão gêmeo, <strong>Vex</strong>, que busca despertar um poder oculto nas profundezas do servidor.
+        seu irmão gêmeo, <strong>Vergil</strong>, que busca despertar um poder oculto nas profundezas do servidor.
       </p>
       <div class="row">
         <button id="btn-back" class="btn danger">◀ VOLTAR</button>
@@ -65,9 +66,9 @@
   <!-- ===== Jogo ===== -->
   <main id="game" class="game hidden">
     <section class="card hero-panel">
-      <canvas id="hero-main" class="hero" data-scale="6" aria-label="Caçador de demônios em pixel art"></canvas>
-      <div class="bubble"><p id="speech">Leia as pistas e vamos romper essa barreira!</p></div>
-      <canvas class="rival" data-scale="4" aria-label="Vex, o rival, em pixel art"></canvas>
+      <span class="slot size-m" data-label="protagonista-cruzadinha-jogo1.png"><img class="sprite" id="hero-main" data-asset="idle" alt="Protagonista"></span>
+      <div class="bubble"><p id="speech">Leia as pistas e vamos acabar com tudo!</p></div>
+      <span class="slot size-m" data-label="rival-cruzadinha-jogo1.png"><img class="sprite" data-asset="rival" alt="Rival"></span>
     </section>
 
     <section class="board-wrap terminal">
@@ -84,7 +85,7 @@
 
     <aside class="card side">
       <div class="counter">
-        <span class="label">BARREIRA ROMPIDA</span>
+        <span class="label">JACKPOT!</span>
         <span id="status" class="value">0 de 16 palavras</span>
       </div>
 
@@ -109,7 +110,7 @@
   <!-- ===== Vitória ===== -->
   <div id="victory" class="overlay hidden">
     <div class="card victory">
-      <canvas id="hero-win" class="hero" aria-label="Caçador comemorando em pixel art"></canvas>
+      <span class="slot size-m" data-label="protagonista-cruzadinha-vitoria1.png"><img class="sprite" data-asset="victory" data-fallback="idle" alt="Protagonista comemorando"></span>
       <h2>BARREIRA ROMPIDA!</h2>
       <div class="final-rank"><span>RANK</span><b id="final-rank">S</b></div>
       <p id="victory-text"></p>

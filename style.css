@@ -299,3 +299,46 @@ body::before {
 .card { background: rgba(26, 11, 34, .94); }
 .rank-flash b { font-size: 56px; }
 .final-rank b { font-size: 40px; }
+
+/* =========================================================
+   Imagens da pasta assets/ e placeholders
+   ========================================================= */
+img { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+.slot {
+  position: relative; flex: none; display: inline-flex; align-items: flex-end; justify-content: center;
+  width: 140px; height: 180px;
+}
+.slot.size-s { width: 100px; height: 130px; }
+.slot.size-m { width: 140px; height: 180px; }
+.slot.size-l { width: 200px; height: 260px; }
+.slot img.sprite {
+  width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+
+/* placeholder: aparece quando o arquivo ainda não existe */
+.slot.missing img.sprite { display: none; }
+.slot.missing {
+  align-items: center; border: 3px dashed var(--red); background: rgba(224, 17, 58, .08);
+  box-shadow: 0 0 10px rgba(224, 17, 58, .6), inset 0 0 14px rgba(224, 17, 58, .35);
+  animation: slot-pulse 2.4s ease-in-out infinite;
+}
+.slot.missing::after {
+  content: attr(data-label); padding: 6px; text-align: center; white-space: pre-line;
+  font-family: var(--pixel); font-size: 9px; line-height: 1.6; color: var(--red);
+  text-shadow: 0 0 6px var(--red);
+}
+.slot.size-s.missing::after { font-size: 7px; }
+@keyframes slot-pulse { 50% { box-shadow: 0 0 20px rgba(224, 17, 58, .9), inset 0 0 20px rgba(224, 17, 58, .5); } }
+
+/* efeitos de pose (funcionam mesmo com uma única imagem) */
+.slot.pose-win { animation: hop .45s ease-out 3; }
+.slot.pose-think { transform: rotate(-4deg); }
+@keyframes hop { 40% { transform: translateY(-14px); } }
+
+/* cenário opcional em imagem */
+.bg-img { z-index: 0; }
+
+.slot.missing::after { word-break: break-all; font-size: 8px; }
+.slot.size-s.missing::after { font-size: 6px; }
