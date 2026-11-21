@@ -20,6 +20,13 @@
     <p id="mode-label" class="mode">ESCOLHA SEU MODO</p>
   </header>
 
+  <nav id="nav" class="nav hidden" aria-label="Navegação entre modos">
+    <button id="nav-menu" class="btn danger">☰ MENU</button>
+    <button id="nav-m1" class="btn alt">1 · CRUZADINHA</button>
+    <button id="nav-m2" class="btn alt">2 · ARSENAL</button>
+    <button id="nav-m3" class="btn alt">3 · TEMPESTADE</button>
+  </nav>
+
   <!-- ===== Menu de modos ===== -->
   <main id="menu" class="menu">
     <button class="card mode-card" id="mode-1">
@@ -28,18 +35,23 @@
       <strong>Cruzadinha de Dante</strong>
       <small>Decifre os termos de Arquitetura Computacional.</small>
     </button>
-    <div class="card mode-card locked" aria-disabled="true">
+    <button class="card mode-card" id="mode-2">
       <span class="mode-tag">MODO 2</span>
-      <div class="lock">🔒</div>
-      <strong>???</strong>
-      <small>Em breve</small>
-    </div>
-    <div class="card mode-card locked" aria-disabled="true">
+      <span class="slot size-s" data-label="cacadora-card2.png"><img class="sprite" data-asset="card2" alt=""></span>
+      <strong>Arsenal de Lady</strong>
+      <small>Descubra a senha em 6 disparos.</small>
+    </button>
+    <button class="card mode-card" id="mode-3">
       <span class="mode-tag">MODO 3</span>
-      <div class="lock">🔒</div>
-      <strong>???</strong>
-      <small>Em breve</small>
-    </div>
+      <span class="slot size-s" data-label="rival-card3.png"><img class="sprite" data-asset="card3" alt=""></span>
+      <strong>Tempestade de Vergil</strong>
+      <small>Associe termos antes que o tempo acabe.</small>
+    </button>
+    <button class="card secret-card" id="mode-secret">
+      <span class="mode-tag">MODO SECRETO</span>
+      <strong>Modo Secreto</strong>
+      <small>Descubra cada letra da senha ao finalizar cada um dos jogos.</small>
+    </button>
   </main>
 
   <!-- ===== Introdução ===== -->
@@ -49,7 +61,7 @@
       <span class="slot size-m" data-label="rival-cruzadinha-intro1.png"><img class="sprite" data-asset="introRival" alt="Rival"></span>
     </div>
     <div class="intro-text">
-      <h2>Contrato Incomum</h2>
+      <h2>Cruzadinha de Dante</h2>
       <p>
         A agência Computer May Cry acaba de receber um contrato incomum: um demônio cibernético invadiu o
         mainframe central da cidade e corrompeu toda a arquitetura do sistema. Enquanto Dante
@@ -67,7 +79,7 @@
   <main id="game" class="game hidden">
     <section class="card hero-panel">
       <span class="slot size-m" data-label="protagonista-cruzadinha-jogo1.png"><img class="sprite" id="hero-main" data-asset="idle" alt="Protagonista"></span>
-      <div class="bubble"><p id="speech">Leia as pistas e vamos acabar com tudo!</p></div>
+      <div class="bubble"><p id="speech">Leia as pistas e vamos botar pra quebrar!</p></div>
       <span class="slot size-m" data-label="rival-cruzadinha-jogo1.png"><img class="sprite" data-asset="rival" alt="Rival"></span>
     </section>
 
@@ -105,16 +117,158 @@
     </aside>
   </main>
 
+  <!-- ===== Modo 2: introdução ===== -->
+  <main id="intro2" class="card intro hidden">
+    <div class="intro-art">
+      <span class="slot size-l" data-label="cacadora-intro2.png"><img class="sprite" data-asset="huntressIntro" alt="Caçadora"></span>
+    </div>
+    <div class="intro-text">
+      <h2>Arsenal de Lady</h2>
+      <p>
+        Enquanto Dante tenta derrubar o firewall principal, Lady precisa abrir o cofre de
+        armamentos pesados da agência para pegar seu lança-foguetes. O painel eletrônico está travado
+        por um código de segurança de arquitetura de hardware.
+      </p>
+      <p>
+        Você tem <strong>6 disparos</strong> (tentativas) para acertar a senha exata antes que o
+        sistema bloqueie o arsenal!
+      </p>
+      <div class="row">
+        <button id="btn-back2" class="btn danger">◀ VOLTAR</button>
+        <button id="btn-start2" class="btn big">▶ INICIAR</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== Modo 2: Arsenal da Caçadora ===== -->
+  <main id="game2" class="game2 hidden">
+    <section class="card hero-panel">
+      <span class="slot size-m" data-label="cacadora-normal.png"><img class="sprite" id="hero2-main" data-asset="huntress" alt="Caçadora"></span>
+      <div class="bubble"><p id="m2-speech">Preciso daquele lança-foguetes... Qual é a senha que o Dante colocou?</p></div>
+      <div class="m2-counter"><span class="label">DISPAROS!</span><b id="m2-shot">1 de 6</b></div>
+    </section>
+
+    <section class="terminal">
+      <div class="bezel">
+        <div class="screen">
+          <p class="term-head">&gt; COFRE_ARSENAL.SYS <span class="blink">█</span></p>
+          <p id="m2-context" class="context"></p>
+          <p id="m2-clue" class="current-clue"></p>
+          <div class="m2-scroll"><div id="m2-grid" class="m2-grid" role="grid" aria-label="Tentativas da senha"></div></div>
+          <p id="m2-msg" class="m2-msg" aria-live="polite"></p>
+          <div id="m2-keys" class="m2-keys"></div>
+        </div>
+      </div>
+      <div class="stand" aria-hidden="true"></div>
+    </section>
+
+    <section class="card m2-side">
+      <div class="legend">
+        <span><i class="tile-demo crit">A</i> Acerto crítico: letra certa no lugar certo</span>
+        <span><i class="tile-demo bounce">B</i> Ricochete: letra certa no lugar errado</span>
+        <span><i class="tile-demo miss">C</i> A letra não existe na senha</span>
+      </div>
+      <div class="m2-stats">
+        <span>VITÓRIAS <b id="m2-wins">0</b></span>
+        <span>DERROTAS <b id="m2-losses">0</b></span>
+        <span>SEQUÊNCIA <b id="m2-streak">0</b></span>
+      </div>
+      <button id="m2-new" class="btn">↻ NOVA SENHA</button>
+    </section>
+  </main>
+
+  <!-- ===== Modo 3: introdução ===== -->
+  <main id="intro3" class="card intro hidden">
+    <div class="intro-art">
+      <span class="slot size-l" data-label="rival-intro3.png"><img class="sprite" data-asset="rival3Intro" alt="Rival"></span>
+    </div>
+    <div class="intro-text">
+      <h2>Tempestade de Vergil</h2>
+      <p>
+        Encurralado no núcleo do servidor após Dante quebrar o firewall principal e Lady
+        destravar o arsenal, <strong>Vergil</strong> não tem intenção de se render. Empunhando sua lâmina
+        para rasgar o tecido digital, ele precisa abrir um portal de fuga antes que o sistema reinicie
+        e o prenda para sempre.
+      </p>
+      <p>
+        Para cada corte dimensional abrir o caminho certo, você deve alinhar a frequência exata da
+        arquitetura do computador!
+      </p>
+      <div class="row">
+        <button id="btn-back3" class="btn danger">◀ VOLTAR</button>
+        <button id="btn-start3" class="btn big">▶ INICIAR</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== Modo 3: jogo ===== -->
+  <main id="game3" class="game2 hidden">
+    <section class="card hero-panel">
+      <span class="slot size-m" data-label="rival-normal.png"><img class="sprite" id="hero3-main" data-asset="rivalIdle" alt="Rival"></span>
+      <div class="bubble"><p id="m3-speech">Eu preciso alinhar a frequência certa, eu preciso de mais poder...</p></div>
+      <div class="m2-counter"><span class="label">CORTES</span><b id="m3-count">0 de 10</b></div>
+    </section>
+
+    <section class="card m3-stage">
+      <div class="m3-bars">
+        <div class="m3-timer">
+          <span class="label">TEMPO <b id="m3-time">10.0s</b></span>
+          <div class="bar"><i id="m3-time-bar"></i></div>
+        </div>
+        <div class="m3-focus">
+          <span class="label">CONCENTRAÇÃO</span>
+          <div id="m3-focus" class="segs" aria-label="Barra de concentração"></div>
+        </div>
+      </div>
+      <p id="m3-clue" class="m3-clue"></p>
+      <div id="m3-opts" class="m3-opts"></div>
+      <p id="m3-msg" class="m2-msg" aria-live="polite"></p>
+      <p class="m3-hint">Atalho: teclas 1, 2 e 3. Cada erro tira 2 pontos da barra. Complete 10 para abrir o portal.</p>
+    </section>
+  </main>
+
+  <!-- ===== Modo Secreto ===== -->
+  <main id="secret" class="card intro hidden">
+    <div class="intro-art">
+      <span class="slot size-l" data-label="secreto-dica.png"><img class="sprite" data-asset="secret" alt="Dica"></span>
+    </div>
+    <div class="intro-text">
+      <h2>Área Restrita</h2>
+      <p id="secret-hint" class="tip">(frase dica — placeholder)</p>
+      <form id="secret-form" class="secret-form" autocomplete="off">
+        <input id="secret-input" type="text" placeholder="DIGITE A SENHA" maxlength="32" aria-label="Senha do modo secreto">
+        <div class="row">
+          <button type="button" id="btn-back-secret" class="btn danger">◀ VOLTAR</button>
+          <button type="submit" class="btn big">🔓 DESBLOQUEAR</button>
+        </div>
+      </form>
+      <p id="secret-msg" class="m2-msg" aria-live="polite"></p>
+    </div>
+  </main>
+
   <div id="rank-flash" class="rank-flash hidden" aria-hidden="true"><b>S</b><span>RANK S!</span></div>
 
   <!-- ===== Vitória ===== -->
   <div id="victory" class="overlay hidden">
     <div class="card victory">
       <span class="slot size-m" data-label="protagonista-cruzadinha-vitoria1.png"><img class="sprite" data-asset="victory" data-fallback="idle" alt="Protagonista comemorando"></span>
-      <h2>BARREIRA ROMPIDA!</h2>
+      <h2>JACKPOT!</h2>
       <div class="final-rank"><span>RANK</span><b id="final-rank">S</b></div>
       <p id="victory-text"></p>
       <button id="btn-again" class="btn big">↺ JOGAR DE NOVO</button>
+    </div>
+  </div>
+
+  <!-- ===== Modo 3: vitória ===== -->
+  <div id="victory3" class="overlay hidden">
+    <div class="card victory">
+      <span class="slot size-l" data-label="vitoria-final.png"><img class="sprite" data-asset="victory3" alt="Vitória"></span>
+      <h2>JACKPOT!</h2>
+      <p>Dez cortes perfeitos. Vergil abre o portal, mas assim que ele entra no portal, seu irmão Dante pula e entra junto no portal...</p>
+      <div class="row center">
+        <button id="btn-menu3" class="btn danger">☰ MENU</button>
+        <button id="btn-again3" class="btn big">↺ JOGAR DE NOVO</button>
+      </div>
     </div>
   </div>
 

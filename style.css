@@ -199,6 +199,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 10
    Menu de modos, terminal antigo e rank
    ========================================================= */
 .menu {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   position: relative; z-index: 1; max-width: 900px; margin: 28px auto;
   padding: 0 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
 }
@@ -262,7 +263,6 @@ button.mode-card:hover { border-color: var(--gold); transform: translateY(-3px);
 .actions .btn { line-height: 1.5; }
 
 @media (max-width: 860px) {
-  .menu { grid-template-columns: 1fr; }
   .bezel { padding: 10px; }
 }
 
@@ -342,3 +342,155 @@ img { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 .slot.missing::after { word-break: break-all; font-size: 8px; }
 .slot.size-s.missing::after { font-size: 6px; }
+
+/* =========================================================
+   Navegação e Modo 2 — Arsenal da Caçadora
+   ========================================================= */
+.nav {
+  position: relative; z-index: 1; display: flex; gap: 12px; justify-content: center;
+  flex-wrap: wrap; padding: 10px 14px 0;
+}
+.nav .btn.current { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.game2 {
+  position: relative; z-index: 1; max-width: 860px; margin: 22px auto 10px; padding: 0 14px;
+  display: flex; flex-direction: column; gap: 22px;
+}
+.m2-counter {
+  background: #000; border: 3px solid var(--cyan); padding: 10px 12px; text-align: center; flex: none;
+}
+.m2-counter .label { display: block; font-family: var(--pixel); font-size: 8px; color: var(--cyan); margin-bottom: 6px; }
+.m2-counter b { font-family: var(--pixel); font-size: 13px; color: var(--gold); }
+
+.m2-scroll { overflow-x: auto; padding: 6px 2px 10px; }
+.m2-grid {
+  --gap: 4px;
+  --t: clamp(15px, calc((min(100vw, 860px) - 120px) / var(--cols) - var(--gap)), 54px);
+  display: flex; flex-direction: column; gap: var(--gap); align-items: center; width: max-content; margin: 0 auto;
+}
+.m2-row { display: flex; gap: var(--gap); }
+.m2-row.shake { animation: shake .35s; }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+
+.tile {
+  width: var(--t); height: var(--t); display: flex; align-items: center; justify-content: center;
+  background: #06100c; border: 3px solid #1d4a38;
+  font-family: var(--pixel); font-size: max(8px, calc(var(--t) * .45)); color: #e7fff0;
+  text-shadow: none; text-transform: uppercase;
+}
+.tile.filled { border-color: #7dffb0; }
+.tile.flip { animation: flip .4s ease-in-out; }
+@keyframes flip { 50% { transform: rotateX(90deg); } }
+/* acerto crítico: vermelho e dourado */
+.tile.crit, .tile-demo.crit, .key.crit {
+  background: linear-gradient(135deg, #e0113a 0%, #e0113a 55%, #f2c14e 100%);
+  border-color: #f2c14e; color: #fff;
+}
+.tile.crit { box-shadow: 0 0 10px rgba(242, 193, 78, .7); }
+/* ricochete: azul com letra amarela */
+.tile.bounce, .tile-demo.bounce, .key.bounce { background: #1f5fbf; border-color: #5ea0ff; color: #ffe34d; }
+/* letra inexistente: cinza escuro */
+.tile.miss, .tile-demo.miss, .key.miss { background: #26262e; border-color: #3a3a46; color: #8a8a9a; }
+
+.m2-msg { min-height: 28px; margin: 6px 0 8px; text-align: center; color: var(--gold); line-height: 1.1; }
+.m2-keys { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.m2-keyrow { display: flex; gap: 5px; justify-content: center; }
+.key {
+  min-width: 30px; height: 40px; padding: 0 6px; cursor: pointer; font-family: var(--pixel); font-size: 10px;
+  color: #e7fff0; background: #0c2a1f; border: 3px solid #1d4a38; text-shadow: none;
+}
+.key.wide { min-width: 54px; font-size: 8px; }
+.key:hover { filter: brightness(1.25); }
+.key:active { transform: translateY(2px); }
+
+.m2-side { display: flex; flex-direction: column; gap: 14px; }
+.legend { display: flex; flex-direction: column; gap: 8px; }
+.legend span { display: flex; align-items: center; gap: 10px; line-height: 1.05; }
+.tile-demo {
+  display: inline-flex; width: 28px; height: 28px; align-items: center; justify-content: center; flex: none;
+  font-style: normal; font-family: var(--pixel); font-size: 11px; border: 3px solid;
+}
+.m2-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.m2-stats span { font-family: var(--pixel); font-size: 9px; color: var(--muted); }
+.m2-stats b { display: block; margin-top: 6px; font-size: 14px; color: var(--gold); }
+
+/* poses da caçadora (funcionam com uma única imagem) */
+.slot.pose-miss { animation: shake .4s; }
+
+@media (max-width: 560px) {
+  .key { min-width: 24px; height: 38px; padding: 0 3px; font-size: 9px; }
+  .key.wide { min-width: 40px; font-size: 7px; }
+  .m2-keyrow { gap: 3px; }
+}
+
+/* =========================================================
+   Modo 3 — Corte Dimensional e Modo Secreto
+   ========================================================= */
+.m3-stage { display: flex; flex-direction: column; gap: 16px; border-color: #1f5fbf; box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000, 0 0 24px rgba(63, 130, 255, .35); }
+.m3-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.m3-bars .label { display: block; font-family: var(--pixel); font-size: 8px; color: var(--cyan); margin-bottom: 8px; }
+.m3-bars .label b { color: var(--gold); margin-left: 6px; }
+.bar { height: 18px; background: #000; border: 3px solid #1f5fbf; }
+.bar i { display: block; height: 100%; width: 100%; background: #5ea0ff; transition: width .1s linear; }
+.bar i.low { background: var(--red); }
+.segs { display: flex; gap: 3px; height: 18px; }
+.segs i { flex: 1; background: #000; border: 3px solid #1f5fbf; transition: background .2s, box-shadow .2s; }
+.segs i.on { background: #5ea0ff; box-shadow: 0 0 10px rgba(94, 160, 255, .9); }
+
+.m3-clue {
+  margin: 0; min-height: 110px; display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 16px; background: #000; border: 3px solid #1f5fbf; font-size: 28px; line-height: 1.1; color: #e8f1ff;
+  text-shadow: 0 0 8px rgba(94, 160, 255, .6);
+}
+.m3-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.m3-opt {
+  position: relative; min-height: 72px; padding: 12px 8px; cursor: pointer; color: #fff;
+  font-family: var(--pixel); font-size: 11px; line-height: 1.5; background: #14284f;
+  border: 3px solid #5ea0ff; box-shadow: 0 0 0 3px #000; transition: transform .06s, filter .1s;
+}
+.m3-opt small { position: absolute; top: 4px; left: 6px; font-family: var(--body); font-size: 16px; color: #9fd0ff; }
+.m3-opt:hover:not(:disabled) { filter: brightness(1.3); transform: translateY(-2px); }
+.m3-opt:disabled { cursor: default; }
+.m3-opt.right { background: #0f6b4a; border-color: #7dffb0; box-shadow: 0 0 0 3px #000, 0 0 14px rgba(125, 255, 176, .8); }
+.m3-opt.wrong { background: #6b0f1f; border-color: var(--red); }
+.m3-hint { margin: 0; text-align: center; color: var(--muted); font-size: 18px; }
+
+.row.center { justify-content: center; }
+
+/* menu: card do modo secreto ocupa a largura dos três cards */
+.secret-card {
+  grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 18px 14px; text-align: center; cursor: pointer; color: var(--text);
+  font-family: var(--body); font-size: 22px;
+  border-style: dashed; border-color: #8a7aa0; background: rgba(12, 6, 18, .92);
+}
+.secret-card strong { font-family: var(--pixel); font-size: 13px; color: var(--gold); letter-spacing: 1px; }
+.secret-card small { color: var(--muted); font-size: 20px; }
+.secret-card .mode-tag { align-self: flex-start; color: var(--muted); }
+.secret-card:hover { border-color: var(--gold); box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000, 0 0 18px rgba(242, 193, 78, .35); }
+
+/* tela de senha */
+.secret-form { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+.secret-form input {
+  width: 100%; padding: 14px; font-family: var(--pixel); font-size: 14px; letter-spacing: 3px; text-align: center;
+  color: #7dffb0; background: #04140f; border: 3px solid #1d4a38; outline: none; text-transform: uppercase;
+}
+.secret-form input:focus { border-color: #7dffb0; box-shadow: 0 0 10px rgba(125, 255, 176, .5); }
+
+@media (max-width: 700px) {
+  .m3-bars { grid-template-columns: 1fr; }
+  .m3-opts { grid-template-columns: 1fr; }
+  .m3-clue { font-size: 24px; }
+}
+
+/* menu: cards 1, 2 e 3 sempre na mesma linha; o modo secreto fica abaixo */
+.menu { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.secret-card { grid-column: 1 / -1; }
+@media (max-width: 640px) {
+  .menu { gap: 10px; padding: 0 8px; }
+  .mode-card { padding: 12px 6px 14px; gap: 8px; }
+  .mode-card strong { font-size: 8px; }
+  .mode-card small { font-size: 16px; line-height: 1; }
+  .mode-tag { font-size: 7px; }
+  .slot.size-s { width: 70px; height: 92px; }
+}
