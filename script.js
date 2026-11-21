@@ -30,6 +30,7 @@ const COLS = 10;
 const PALETTE = {
   k: "#0a0610", h: "#4b1f7a", H: "#7a3fb8", v: "#3fe0d0", s: "#e2b48c",
   b: "#d9fbff", g: "#8a8fa8", r: "#e0113a", R: "#b3123a", y: "#f2c14e",
+  G: "#14513a", o: "#ff8a1f", O: "#b34d00",
 };
 const HERO = [
   "....kkkkkk......",
@@ -49,29 +50,67 @@ const HERO = [
   "..kkkkkkkkkk....",
   "..kkk.kk.kkk....",
 ];
-const IMP = [
-  "................",
-  ".k..........k...",
-  ".rk........kr...",
-  "..rkkkkkkkkr....",
-  "...kRRRRRRk.....",
-  "...kRyRRyRk.....",
-  "...kRRRRRRk.....",
-  "...kRkkkkRk.....",
-  "....kRRRRk......",
-  "...kkRRRRkk.....",
-  "..kRRRRRRRRk....",
-  "..kRkRRRRkRk....",
-  "..kk.kRRk.kk....",
-  "......kRRk......",
-  ".....kkkkkk.....",
-  "................",
+const HERO_WIN = [
+  "y.s.kkkkkk.s.y..",
+  "..hkhhhhhhkh....",
+  "..hkhHHHHhkh....",
+  "...khkvvvvkhk...",
+  "...khkvvvvkhk...",
+  "....khkkkkhk....",
+  "...khhhhhhhhk...",
+  "..khhhhrrhhhhk..",
+  "..khhhhrrhhhhk..",
+  "...khhhrrhhhk...",
+  "...khhhrrhhhk...",
+  "...khhhhhhhhk...",
+  "...kkhhhhhhkk...",
+  "...kkhhkkhhkk...",
+  "...kkk.kk.kkk...",
+  "...kkk.kk.kkk...",
+];
+const HERO_THINK = [
+  "....kkkkkk..yyy.",
+  "...khhhhhhk...y.",
+  "..khhHHHHhhk.yy.",
+  "..khkvvvvkhk.y..",
+  "..khkvvvvkhk.y..",
+  "..khhkkkkhhk....",
+  "...kkhhhhkk.y...",
+  "..khhhrrhhhk....",
+  ".khhhhrrhhhhk...",
+  ".khhhhrrhsskk...",
+  ".khhhhrrhsk.....",
+  "..khhhhhhhhk....",
+  "..khhhhhhhhk....",
+  "..kkhhkkhhkk....",
+  "..kkkkkkkkkk....",
+  "..kkk.kk.kkk....",
+];
+// Rival original: capuz verde-escuro, visor âmbar e lâmina laranja
+const RIVAL = [
+  "....kkkkkk......",
+  "...kGGGGGGk.....",
+  "..kGGGGGGGGk....",
+  "..kGkooookGk....",
+  "..kGkooookGk....",
+  "..kGGkkkkGGk....",
+  "...kkGGGGkk.....",
+  "..kGGGyyGGGk....",
+  "okGGGGyyGGGGk...",
+  "okGGGGyyGGGGk...",
+  "OkGGGGyyGGGGk...",
+  "gkGGGGGGGGGGk...",
+  ".kkGGGGGGGGkk...",
+  "..kGGkkkkGGk....",
+  "..kkk.kk.kkk....",
+  "..kkk.kk.kkk....",
 ];
 
 function drawSprite(canvas, map, scale) {
   const ctx = canvas.getContext("2d");
   canvas.width = 16 * scale;
   canvas.height = 16 * scale;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.imageSmoothingEnabled = false;
   map.forEach((line, y) => {
     for (let x = 0; x < 16; x++) {
@@ -92,6 +131,8 @@ let activeKey = null;
 let hints = 0;
 let reveals = 0;
 let checked = false;
+let lastOk = 0;
+let poseTimer = null;
 
 const $ = (id) => document.getElementById(id);
 const key = (r, c) => `${r},${c}`;
@@ -323,8 +364,10 @@ function conferir() {
   checked = true;
   const wrong = states.filter((s) => s === "bad").length;
   const pending = states.filter((s) => s === "pending").length;
+  if (ok > lastOk) { setPose("win", 1800); flashRank("SSS", "RANK SSS!"); }
+  lastOk = ok;
   if (ok === WORDS.length) {
-    say("Todos os portões foram selados!");
+    say("Barreira rompida! Rank SSS no estilo!");
     showVictory();
   } else {
     say(`${ok} certas, ${wrong} erradas, ${pending} incompletas. Siga em frente!`);
@@ -342,7 +385,9 @@ function dica() {
   target.el.classList.add("hint");
   hints++;
   updateCounters();
-  say("Uma runa se revelou…");
+  flashRank("S", "RANK S!");
+  setPose("think", 2400);
+  say("Dica estilosa! Uma letra do código foi revelada.");
   target.input.focus();
 }
 
@@ -361,7 +406,8 @@ function resposta() {
 function reiniciar() {
   cells.forEach((cell) => { cell.input.value = ""; clearMarks(cell); });
   WORDS.forEach((w) => w.li.classList.remove("ok", "bad"));
-  hints = 0; reveals = 0; checked = false;
+  hints = 0; reveals = 0; checked = false; lastOk = 0;
+  setPose("idle");
   $("status").textContent = `0 de ${WORDS.length} palavras`;
   $("victory").classList.add("hidden");
   updateCounters();
@@ -376,16 +422,68 @@ function updateCounters() {
 
 function say(text) { $("speech").textContent = text; }
 
+function setPose(pose, ms) {
+  const c = $("hero-main");
+  if (!c) return;
+  clearTimeout(poseTimer);
+  const map = pose === "win" ? HERO_WIN : pose === "think" ? HERO_THINK : HERO;
+  drawSprite(c, map, 6);
+  if (ms) poseTimer = setTimeout(() => setPose("idle"), ms);
+}
+
+// Rank final: dicas pesam 1 ponto, respostas reveladas pesam 3
+function finalRank() {
+  const penalty = hints + reveals * 3;
+  if (penalty === 0) return "SSS";
+  if (penalty <= 2) return "SS";
+  if (penalty <= 4) return "S";
+  if (penalty <= 9) return "A";
+  return "B";
+}
+
 function showVictory() {
+  setPose("win", 0);
+  $("final-rank").textContent = finalRank();
   $("victory-text").textContent =
-    `Você selou os ${WORDS.length} portões usando ${hints} dica(s) e ${reveals} resposta(s) reveladas.`;
+    `Você quebrou a criptografia usando ${hints} dica(s) e ${reveals} resposta(s) revelada(s).`;
   $("victory").classList.remove("hidden");
 }
 
-// ---------- Início ----------
+function flashRank(letter, text) {
+  const el = $("rank-flash");
+  el.querySelector("b").textContent = letter;
+  el.querySelector("span").textContent = text;
+  el.classList.remove("hidden", "pop");
+  void el.offsetWidth; // reinicia a animação
+  el.classList.add("pop");
+  setTimeout(() => el.classList.add("hidden"), 1100);
+}
+
+// ---------- Telas ----------
+const CONTEXT =
+  "Vex bloqueou o firewall principal com uma criptografia antiga baseada em arquitetura de computadores. " +
+  "Antes de sacar a lâmina, o Caçador precisa decifrar os termos técnicos deixados por seu irmão para " +
+  "quebrar a barreira de segurança e avançar no sistema.";
+
+function typeContext(text) {
+  const el = $("context");
+  el.textContent = "";
+  let i = 0;
+  const timer = setInterval(() => {
+    el.textContent = text.slice(0, ++i);
+    if (i >= text.length) clearInterval(timer);
+  }, 14);
+}
+
+function showScreen(name) {
+  ["menu", "intro", "game"].forEach((id) => $(id).classList.toggle("hidden", id !== name));
+  $("mode-label").textContent =
+    name === "menu" ? "ESCOLHA SEU MODO" : "MODO 1 · CRUZADINHA DO CAÇADOR";
+}
+
 function startGame() {
-  $("intro").classList.add("hidden");
-  $("game").classList.remove("hidden");
+  showScreen("game");
+  typeContext(CONTEXT);
   selectWord(0, true);
 }
 
@@ -395,7 +493,11 @@ function init() {
   buildClues();
   onBoardEvents();
   document.querySelectorAll("canvas.hero").forEach((c) => drawSprite(c, HERO, Number(c.dataset.scale) || 6));
-  document.querySelectorAll("canvas.imp").forEach((c) => drawSprite(c, IMP, Number(c.dataset.scale) || 6));
+  document.querySelectorAll("canvas.rival").forEach((c) => drawSprite(c, RIVAL, Number(c.dataset.scale) || 6));
+  drawSprite($("hero-win"), HERO_WIN, 8);
+  drawBackground();
+  $("mode-1").addEventListener("click", () => showScreen("intro"));
+  $("btn-back").addEventListener("click", () => showScreen("menu"));
   $("btn-start").addEventListener("click", startGame);
   $("btn-check").addEventListener("click", conferir);
   $("btn-hint").addEventListener("click", dica);
@@ -407,3 +509,78 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+
+// ---------- Cenário: interior da agência (pixel art 160x90) ----------
+function drawBackground() {
+  const cv = $("bg");
+  if (!cv) return;
+  const W = 160, H = 90;
+  cv.width = W; cv.height = H;
+  const g = cv.getContext("2d");
+  const rect = (c, x, y, w, h) => { g.fillStyle = c; g.fillRect(x, y, w, h); };
+
+  // parede de tijolos escuros
+  rect("#1a0b22", 0, 0, W, 66);
+  for (let y = 0; y < 66; y += 6) {
+    for (let x = (y / 6) % 2 ? -6 : 0; x < W; x += 12) {
+      rect("#241033", x + 1, y + 1, 10, 4);
+    }
+  }
+  // piso de tábuas e rodapé
+  rect("#0b0610", 0, 64, W, 3);
+  rect("#2a1420", 0, 67, W, 23);
+  for (let y = 67; y < H; y += 6) rect("#1a0b12", 0, y, W, 1);
+  for (let y = 67, r = 0; y < H; y += 6, r++) {
+    for (let x = (r % 2) * 14; x < W; x += 28) rect("#1a0b12", x, y, 1, 6);
+  }
+
+  // janela com lua e prédios
+  rect("#0b0610", 116, 8, 34, 34);
+  rect("#0f2a4a", 118, 10, 30, 30);
+  rect("#f1e6ff", 138, 14, 5, 5);
+  rect("#0f2a4a", 140, 14, 2, 2);
+  [[118, 28, 6, 12], [125, 24, 5, 16], [131, 30, 7, 10], [139, 26, 5, 14], [145, 31, 3, 9]]
+    .forEach(([x, y, w, h]) => rect("#07121f", x, y, w, h));
+  rect("#0b0610", 132, 10, 2, 30);
+  rect("#0b0610", 118, 24, 30, 2);
+  rect("rgba(120,160,255,0.07)", 106, 42, 50, 24);
+
+  // cartazes
+  rect("#0b0610", 12, 14, 18, 24); rect("#4b1f7a", 14, 16, 14, 20);
+  rect("#e0113a", 17, 21, 8, 8); rect("#0a0610", 20, 24, 2, 2);
+  rect("#0b0610", 34, 20, 12, 16); rect("#14513a", 36, 22, 8, 12);
+  rect("#ff8a1f", 38, 26, 4, 4);
+
+  // luminária pendurada com brilho vermelho
+  rect("#0b0610", 79, 0, 2, 10);
+  rect("#8f0b26", 74, 10, 12, 4);
+  rect("#e0113a", 76, 12, 8, 2);
+  const glow = g.createRadialGradient(80, 14, 2, 80, 30, 44);
+  glow.addColorStop(0, "rgba(224,17,58,0.35)"); glow.addColorStop(1, "rgba(224,17,58,0)");
+  g.fillStyle = glow; g.fillRect(30, 0, 100, 70);
+
+  // mesa
+  rect("#0b0610", 52, 55, 70, 3);
+  rect("#4a2a1a", 52, 56, 70, 4);
+  rect("#33190f", 54, 60, 66, 16);
+  rect("#0b0610", 54, 66, 66, 1);
+  rect("#0b0610", 66, 61, 20, 5); rect("#8a8fa8", 67, 62, 18, 3); // gaveta
+
+  // monitor retrô
+  rect("#0b0610", 78, 34, 30, 22);
+  rect("#cfc6b4", 79, 35, 28, 20);
+  rect("#04140f", 81, 37, 24, 15);
+  for (let i = 0; i < 4; i++) rect("#7dffb0", 83, 39 + i * 3, 8 + ((i * 7) % 12), 1);
+  rect("#7dffb0", 100, 49, 3, 2);
+  rect("#9d9482", 88, 55, 10, 2);
+  // teclado e caneca
+  rect("#0b0610", 80, 53, 26, 3); rect("#5a5a78", 81, 53, 24, 2);
+  rect("#e0113a", 58, 49, 6, 6); rect("#0b0610", 64, 51, 2, 3);
+
+  // vinheta de sombras nas laterais
+  const v = g.createLinearGradient(0, 0, W, 0);
+  v.addColorStop(0, "rgba(0,0,0,0.55)"); v.addColorStop(0.3, "rgba(0,0,0,0)");
+  v.addColorStop(0.7, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(0,0,0,0.55)");
+  g.fillStyle = v; g.fillRect(0, 0, W, H);
+}

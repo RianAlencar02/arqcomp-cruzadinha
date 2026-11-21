@@ -4,65 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Computer May Cry — Cruzadinha do Caçador</title>
-  <meta name="description" content="Cruzadinha de Arquitetura Computacional com tema de caçada a demônios em pixel art.">
+  <meta name="description" content="Jogo de cruzadinha de Arquitetura Computacional com tema de caçada a demônios em pixel art.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="bg" class="bg" aria-hidden="true"></canvas>
   <div class="embers" aria-hidden="true"></div>
 
   <header class="top">
-    <h1 class="logo"><span>COMPUTER</span> <em>MAY</em> <span>CRY</span></h1>
-    <p class="mode">MODO 1 · CRUZADINHA DO CAÇADOR</p>
+    <div class="sign"><h1 class="logo"><span>COMPUTER</span> <em>MAY</em> <span>CRY</span></h1></div>
+    <p id="mode-label" class="mode">ESCOLHA SEU MODO</p>
   </header>
 
+  <!-- ===== Menu de modos ===== -->
+  <main id="menu" class="menu">
+    <button class="card mode-card" id="mode-1">
+      <span class="mode-tag">MODO 1</span>
+      <canvas class="hero" data-scale="6" aria-hidden="true"></canvas>
+      <strong>Cruzadinha do Caçador</strong>
+      <small>Decifre os termos de Arquitetura Computacional.</small>
+    </button>
+    <div class="card mode-card locked" aria-disabled="true">
+      <span class="mode-tag">MODO 2</span>
+      <div class="lock">🔒</div>
+      <strong>???</strong>
+      <small>Em breve</small>
+    </div>
+    <div class="card mode-card locked" aria-disabled="true">
+      <span class="mode-tag">MODO 3</span>
+      <div class="lock">🔒</div>
+      <strong>???</strong>
+      <small>Em breve</small>
+    </div>
+  </main>
+
   <!-- ===== Introdução ===== -->
-  <main id="intro" class="card intro">
+  <main id="intro" class="card intro hidden">
     <div class="intro-art">
       <canvas class="hero" data-scale="10" aria-label="Caçador de demônios em pixel art"></canvas>
-      <canvas class="imp" data-scale="7" aria-label="Demônio bug em pixel art"></canvas>
+      <canvas class="rival" data-scale="7" aria-label="Vex, o rival, em pixel art"></canvas>
     </div>
     <div class="intro-text">
-      <h2>O Submundo dos Bytes</h2>
+      <h2>Contrato Incomum</h2>
       <p>
-        Em uma noite sem lua, o Data Center abandonado da Torre Carmesim foi tomado por
-        <strong>Bugs demoníacos</strong>. Eles devoraram a memória do sistema e agora
-        guardam 16 portões selados com os termos antigos da Arquitetura Computacional.
+        A agência Computer May Cry acaba de receber um contrato incomum: um demônio cibernético invadiu o
+        mainframe central da cidade e corrompeu toda a arquitetura do sistema. Enquanto o Caçador
+        investiga a origem do ataque, ele encontra uma assinatura familiar no código-fonte — a marca de
+        seu irmão gêmeo, <strong>Vex</strong>, que busca despertar um poder oculto nas profundezas do servidor.
       </p>
-      <p>
-        Você é o <strong>Caçador</strong>, último técnico capaz de enfrentá-los. Leia cada pista,
-        decifre o termo e escreva-o no tabuleiro para quebrar o selo de cada portão.
-      </p>
-      <p class="tip">Dica: se travar, use <b>Dica</b> para revelar uma letra ou <b>Resposta</b> para revelar a palavra.</p>
-      <button id="btn-start" class="btn big">▶ COMEÇAR A CAÇADA</button>
+      <div class="row">
+        <button id="btn-back" class="btn danger">◀ VOLTAR</button>
+        <button id="btn-start" class="btn big">▶ INICIAR</button>
+      </div>
     </div>
   </main>
 
   <!-- ===== Jogo ===== -->
   <main id="game" class="game hidden">
     <section class="card hero-panel">
-      <canvas class="hero" data-scale="6" aria-label="Caçador de demônios em pixel art"></canvas>
-      <div class="bubble"><p id="speech">Leia as pistas e selaremos os portões!</p></div>
-      <canvas class="imp" data-scale="4" aria-label="Demônio bug em pixel art"></canvas>
+      <canvas id="hero-main" class="hero" data-scale="6" aria-label="Caçador de demônios em pixel art"></canvas>
+      <div class="bubble"><p id="speech">Leia as pistas e vamos romper essa barreira!</p></div>
+      <canvas class="rival" data-scale="4" aria-label="Vex, o rival, em pixel art"></canvas>
     </section>
 
-    <section class="card board-wrap">
-      <p id="current-clue" class="current-clue"></p>
-      <div id="board" class="board" role="grid"></div>
+    <section class="board-wrap terminal">
+      <div class="bezel">
+        <div class="screen">
+          <p class="term-head">&gt; MAINFRAME_CENTRAL.EXE <span class="blink">█</span></p>
+          <p id="context" class="context"></p>
+          <p id="current-clue" class="current-clue"></p>
+          <div id="board" class="board" role="grid"></div>
+        </div>
+      </div>
+      <div class="stand" aria-hidden="true"></div>
     </section>
 
     <aside class="card side">
       <div class="counter">
-        <span class="label">PORTÕES SELADOS</span>
+        <span class="label">BARREIRA ROMPIDA</span>
         <span id="status" class="value">0 de 16 palavras</span>
       </div>
 
       <div class="actions">
         <button id="btn-check" class="btn">✔ CONFERIR</button>
-        <button id="btn-hint" class="btn alt">✦ DICA <small>(<span id="hints">0</span>)</small></button>
-        <button id="btn-reveal" class="btn alt">☠ RESPOSTA <small>(<span id="reveals">0</span>)</small></button>
+        <button id="btn-hint" class="btn alt">★ DICA (ESTILO RANK S) <small>(<span id="hints">0</span>)</small></button>
+        <button id="btn-reveal" class="btn alt">☠ REVELAR RESPOSTA <small>(<span id="reveals">0</span>)</small></button>
         <button id="btn-reset" class="btn danger">↺ REINICIAR</button>
       </div>
 
@@ -75,12 +104,14 @@
     </aside>
   </main>
 
+  <div id="rank-flash" class="rank-flash hidden" aria-hidden="true"><b>S</b><span>RANK S!</span></div>
+
   <!-- ===== Vitória ===== -->
   <div id="victory" class="overlay hidden">
     <div class="card victory">
-      <canvas class="hero" data-scale="8" aria-label="Caçador de demônios em pixel art"></canvas>
-      <h2>MISSÃO CUMPRIDA!</h2>
-      <p>Todos os portões foram selados e o Data Center voltou a funcionar.</p>
+      <canvas id="hero-win" class="hero" aria-label="Caçador comemorando em pixel art"></canvas>
+      <h2>BARREIRA ROMPIDA!</h2>
+      <div class="final-rank"><span>RANK</span><b id="final-rank">S</b></div>
       <p id="victory-text"></p>
       <button id="btn-again" class="btn big">↺ JOGAR DE NOVO</button>
     </div>
