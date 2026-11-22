@@ -1461,7 +1461,7 @@ const DIALOGUE_START = [
   },
   {
     who: "hero",
-    text: "É verdade, desculpa ser o irmão que precisa limpar a cagadas que o outro faz nas brincadeirinhas dele de ficar mais forte. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?",
+    text: "É verdade, desculpa ser o irmão que precisa limpar as cagadas que o outro faz nas brincadeirinhas dele de ficar mais forte. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?",
   },
   {
     who: "rival",
