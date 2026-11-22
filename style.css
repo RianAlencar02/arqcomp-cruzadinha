@@ -76,7 +76,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 10
 .intro-art { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .intro-text h2 { font-family: var(--pixel); font-size: 16px; color: var(--gold); margin: 0 0 14px; }
 .intro-text p { margin: 0 0 12px; line-height: 1.15; }
-.intro-text strong { color: var(--red); }
+.intro-text strong { color: rgb(0, 102, 255); }
 .tip { color: var(--cyan); }
 
 /* ---------- botões ---------- */
@@ -494,3 +494,123 @@ img { image-rendering: pixelated; image-rendering: crisp-edges; }
   .mode-tag { font-size: 7px; }
   .slot.size-s { width: 70px; height: 92px; }
 }
+
+/* =========================================================
+   Protocolo Jackpot — introdução e diálogo
+   ========================================================= */
+.slot.size-xl { width: 220px; height: 300px; }
+.intro-art.duo { flex-direction: row; align-items: flex-end; }
+.intro-art.duo .slot { width: 120px; height: 160px; }
+.secret-card.unlocked { border-style: solid; border-color: var(--gold); box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000, 0 0 22px rgba(242, 193, 78, .45); }
+
+.dialogue {
+  position: fixed; inset: 0; z-index: 30; background: #000; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 16px 16px 20px;
+}
+.d-stage { flex: 1; display: flex; justify-content: space-between; align-items: flex-end; max-width: 1000px; width: 100%; margin: 0 auto; }
+.d-char { transition: opacity .25s, filter .25s, transform .25s; opacity: .35; filter: brightness(.45) saturate(.7); }
+.d-char.speaking { opacity: 1; filter: none; transform: translateY(-6px); }
+.d-bottom { max-width: 1000px; width: 100%; margin: 14px auto 0; display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+.d-next { align-self: flex-end; margin: 0; }
+.d-box {
+  position: relative; min-height: 130px; padding: 24px 22px 18px; background: #0b1a1f;
+  border: 4px solid #5ea0ff; box-shadow: 0 0 0 4px #000, 0 0 22px rgba(94, 160, 255, .35);
+}
+.d-name {
+  position: absolute; top: -20px; left: 18px; padding: 8px 14px; background: #14284f;
+  border: 4px solid #5ea0ff; font-family: var(--pixel); font-size: 11px; color: var(--gold);
+}
+.d-name.is-rival { background: #0f3d2d; border-color: #7dffb0; color: #e7fff0; }
+.d-text { margin: 6px 0 0; font-size: 26px; line-height: 1.1; color: #f0f6ff; min-height: 58px; }
+.d-count { position: absolute; right: 14px; bottom: 6px; font-family: var(--pixel); font-size: 8px; color: var(--muted); }
+
+@media (max-width: 700px) {
+  .slot.size-xl { width: 130px; height: 180px; }
+  .d-text { font-size: 22px; }
+  .intro-art.duo .slot { width: 90px; height: 120px; }
+}
+
+/* =========================================================
+   Fragmentos, batalha contra o chefe e diálogo final
+   ========================================================= */
+.fragment {
+  margin: 10px 0; padding: 10px 12px; font-family: var(--pixel); font-size: 10px; line-height: 1.7;
+  color: var(--gold); background: #000; border: 3px solid var(--gold);
+  text-shadow: 0 0 8px rgba(242, 193, 78, .7); box-shadow: 0 0 14px rgba(242, 193, 78, .35);
+}
+
+/* nomes no diálogo: caçador vermelho, rival azul, caçadora dourada */
+.d-name.is-hero { background: #5a0b1b; border-color: var(--red); color: #fff; }
+.d-name.is-rival { background: #14284f; border-color: #5ea0ff; color: #fff; }
+.d-name.is-huntress { background: #4a3a08; border-color: var(--gold); color: #fff; }
+.d-stage { gap: 10px; }
+.d-char.center { align-self: flex-end; }
+
+/* batalha */
+.boss { max-width: 900px; }
+.boss-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-color: var(--red); }
+.boss-info { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.boss-info .label, .party-stats .label { font-family: var(--pixel); font-size: 8px; color: var(--cyan); line-height: 1.6; }
+.boss-segs { height: 22px; }
+.boss-segs i { border-color: #6b0f1f; }
+.boss-segs i.on { background: var(--red); box-shadow: 0 0 10px rgba(224, 17, 58, .8); }
+.boss-hp-text { font-family: var(--pixel); font-size: 10px; color: var(--gold); }
+
+.boss-party { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.duo-heroes { display: flex; gap: 16px; }
+.p-hero { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border: 3px solid; transition: box-shadow .2s; }
+.p-hero b { font-family: var(--pixel); font-size: 9px; }
+.hero-red { border-color: var(--red); } .hero-red b { color: #ff6b86; }
+.hero-blue { border-color: #5ea0ff; } .hero-blue b { color: #8fc0ff; }
+.p-hero.syn-on { box-shadow: 0 0 22px 4px rgba(242, 193, 78, .85); border-color: var(--gold); animation: slot-pulse 1s infinite; }
+.party-stats { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 12px; }
+.hearts { display: flex; gap: 8px; font-size: 28px; line-height: 1; }
+.hearts span { color: var(--red); text-shadow: 0 0 8px rgba(224, 17, 58, .8); }
+.hearts span.lost { color: #3a1a22; text-shadow: none; }
+.syn { height: 20px; }
+.syn i { border-color: #6b5410; }
+.syn i.on { background: var(--gold); box-shadow: 0 0 10px rgba(242, 193, 78, .9); }
+#boss-syn-btn:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.6); }
+#boss-syn-btn:not(:disabled) { animation: slot-pulse 1s infinite; }
+
+.boss-q { display: flex; flex-direction: column; gap: 14px; }
+.boss-q.turn-hero { border-color: var(--red); box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000, 0 0 22px rgba(224, 17, 58, .45); }
+.boss-q.turn-rival { border-color: #5ea0ff; box-shadow: 0 0 0 4px #000, 8px 8px 0 4px #000, 0 0 22px rgba(94, 160, 255, .45); }
+.boss-turn { font-family: var(--pixel); font-size: 10px; line-height: 1.6; padding: 10px 12px; color: #fff; text-align: center; }
+.boss-turn.hero { background: #8f0b26; border: 3px solid var(--red); }
+.boss-turn.rival { background: #14407f; border: 3px solid #5ea0ff; }
+.boss-q .m3-clue { min-height: 90px; font-size: 26px; }
+.boss-form { display: flex; gap: 12px; }
+.boss-form input {
+  flex: 1; min-width: 0; padding: 14px; font-family: var(--pixel); font-size: 13px; letter-spacing: 2px;
+  text-align: center; color: #7dffb0; background: #04140f; border: 3px solid #1d4a38; outline: none; text-transform: uppercase;
+}
+.boss-form input:focus { border-color: #7dffb0; box-shadow: 0 0 10px rgba(125, 255, 176, .5); }
+.boss-form .btn { margin: 0; }
+.boss-opts { grid-template-columns: 1fr; }
+.boss-def { font-family: var(--body); font-size: 21px; text-align: left; padding: 14px 14px 14px 34px; line-height: 1.05; min-height: 0; }
+
+@media (max-width: 700px) {
+  .boss-top { flex-direction: column-reverse; align-items: stretch; }
+  .boss-top .slot { align-self: center; }
+  .boss-form { flex-direction: column; }
+}
+
+/* fragmento da chave em duas linhas */
+.fragment { text-align: center; }
+.fragment .frag-letter { display: inline-block; margin-top: 6px; font-size: 14px; color: #fff; }
+.secret-card .slot { margin: 2px 0; }
+
+.nav .nav-secret { background: #8a6a12; box-shadow: inset -4px -4px 0 #4f3b07, inset 4px 4px 0 #e2b84a, 0 0 0 3px #000; }
+
+
+/* menu mais largo e imagens dos cards em formato horizontal (16:10) */
+.menu { max-width: 1280px; }
+.mode-card { gap: 12px; }
+.slot.size-card {
+  position: relative; display: flex; width: 100%; height: auto; aspect-ratio: 16 / 10;
+}
+.slot.size-card img.sprite { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.slot.size-card.missing::after { font-size: 8px; }
+/* card do modo secreto: faixa mais larga ainda (16:7) */
+.secret-card .slot.size-card { width: min(100%, 560px); aspect-ratio: 16 / 7; }

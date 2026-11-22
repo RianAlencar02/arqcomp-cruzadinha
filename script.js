@@ -1,5 +1,5 @@
 /* =========================================================
-   COMPUTER MAY CRY — Cruzadinha do Caçador
+   COMPUTER MAY CRY — Cruzadinha de Dante
    HTML + CSS + JavaScript puros
    ========================================================= */
 
@@ -50,6 +50,22 @@ const ASSETS = {
   rivalMiss: "assets/rival-erro.png",
   victory3: "assets/vitoria-final.png",
   secret: "assets/secreto-dica.png",
+  secretRivalIntro: "assets/rival-secreto-intro.png",
+  secretHeroIntro: "assets/protagonista-secreto-intro.png",
+  dlgRival: "assets/rival-dialogo-secreto.png",
+  dlgHero: "assets/protagonista-dialogo-secreto.png",
+  dlgRivalEnd: "assets/rival-dialogo-final.png",
+  dlgHeroEnd: "assets/protagonista-dialogo-final.png",
+  dlgHuntressEnd: "assets/cacadora-dialogo-final.png",
+  bossHero: "assets/cacador-batalha.png",
+  bossRival: "assets/rival-batalha.png",
+  heroSyn: "assets/cacador-sinergia.png",
+  rivalSyn: "assets/rival-sinergia.png",
+  bossIdle: "assets/chefe-normal.png",
+  bossHit: "assets/chefe-dano.png",
+  jackpot: "assets/jackpot-vitoria.png",
+  huntressWin2: "assets/cacadora-vitoria2.png",
+  secretCard: "assets/modo-secreto-imagem.png",
 };
 
 // Carrega cada <img class="sprite">; se o arquivo não existir, mostra o placeholder.
@@ -334,7 +350,7 @@ function conferir() {
     say("JACKPOT! Rank SSS no estilo!");
     showVictory();
   } else {
-    say(`${ok} certas, ${wrong} erradas, ${pending} incompletas. Vamos nessa!`);
+    say(`${ok} certas, ${wrong} erradas, ${pending} incompletas. Vamo nessa!`);
     $("status").textContent = `${ok} de ${WORDS.length} palavras`;
   }
   $("status").textContent = `${ok} de ${WORDS.length} palavras`;
@@ -343,7 +359,7 @@ function conferir() {
 function dica() {
   const w = WORDS[activeWord];
   const target = cellsOf(w).find((c) => c.input.value !== c.correct);
-  if (!target) { say("Essa palavra já está certa. Escolha outra pista!"); return; }
+  if (!target) { say("Eu palavra já está certa. Me ajuda ai com outra dica!"); return; }
   target.input.value = target.correct;
   clearMarks(target);
   target.el.classList.add("hint");
@@ -351,7 +367,7 @@ function dica() {
   updateCounters();
   flashRank("S", "RANK S!");
   setPose("think", 2400);
-  say("BINGO! Uma letra do código foi revelada.");
+  say("BINGO! Uma letra da palavra foi revelada.");
   target.input.focus();
 }
 
@@ -364,7 +380,7 @@ function resposta() {
   });
   reveals++;
   updateCounters();
-  say("Palavra revelada. Talvez até mesmo um computador possa chorar...");
+  say("Palavra revelada. Até mesmo um computador pode chorar...");
 }
 
 function reiniciar() {
@@ -375,7 +391,7 @@ function reiniciar() {
   $("status").textContent = `0 de ${WORDS.length} palavras`;
   $("victory").classList.add("hidden");
   updateCounters();
-  say("Jogo reinciado. Isso não vai me impedir, Vergil!");
+  say("O jogo foi reiniciado. Isso não vai me impedir, Vergil!");
   selectWord(0, true);
 }
 
@@ -445,22 +461,26 @@ function typeContext(text) {
 let mode1Started = false;
 
 function showScreen(name) {
-  ["menu", "intro", "game", "intro2", "game2", "intro3", "game3", "secret"].forEach((id) => $(id).classList.toggle("hidden", id !== name));
+  ["menu", "intro", "game", "intro2", "game2", "intro3", "game3", "secret", "introSecret", "boss"].forEach((id) => $(id).classList.toggle("hidden", id !== name));
   const labels = {
     menu: "ESCOLHA SEU MODO",
-    intro: "MODO 1 · CRUZADINHA DE DANTE",
-    game: "MODO 1 · CRUZADINHA DE DANTE",
-    intro2: "MODO 2 · ARSENAL DE LADY",
-    game2: "MODO 2 · ARSENAL DE LADY",
+    intro: "MODO 1 · CRUZADINHA DO DANTE",
+    game: "MODO 1 · CRUZADINHA DO DANTE",
+    intro2: "MODO 2 · ARSENAL DA LADY",
+    game2: "MODO 2 · ARSENAL DA LADY",
     intro3: "MODO 3 · TEMPESTADE DE VERGIL",
     game3: "MODO 3 · TEMPESTADE DE VERGIL",
     secret: "MODO SECRETO",
+    introSecret: "PROTOCOLO JACKPOT",
+    boss: "PROTOCOLO JACKPOT · CHEFE",
   };
   $("mode-label").textContent = labels[name];
+  if (name !== "boss" && typeof boss !== "undefined") clearTimeout(boss.timer);
   $("nav").classList.toggle("hidden", name === "menu");
   $("nav-m1").classList.toggle("current", name === "intro" || name === "game");
   $("nav-m2").classList.toggle("current", name === "intro2" || name === "game2");
   $("nav-m3").classList.toggle("current", name === "intro3" || name === "game3");
+  $("nav-js").classList.toggle("current", name === "introSecret" || name === "boss");
 }
 
 function goMode1() { showScreen(mode1Started ? "game" : "intro"); }
@@ -486,6 +506,8 @@ function init() {
   initImages();
   drawBackground();
   $("mode-2").addEventListener("click", () => showScreen("intro2"));
+  $("btn-again2").addEventListener("click", () => { $("victory2").classList.add("hidden"); m2NewRound(); });
+  $("btn-menu2").addEventListener("click", () => { $("victory2").classList.add("hidden"); showScreen("menu"); });
   $("nav-menu").addEventListener("click", () => showScreen("menu"));
   $("nav-m1").addEventListener("click", goMode1);
   $("nav-m2").addEventListener("click", goMode2);
@@ -493,6 +515,16 @@ function init() {
   $("btn-start2").addEventListener("click", startMode2);
   initMode2();
   initMode3();
+  initBoss();
+  // atalho do Protocolo Jackpot na barra superior (aparece depois de desbloquear)
+  $("nav-js").addEventListener("click", () => {
+    if (!boss.over) {
+      showScreen("boss");
+      if (boss.lock) bossNextTurn(); // saiu no meio de uma pausa: segue para o próximo turno
+    } else {
+      showScreen("introSecret");
+    }
+  });
   $("mode-1").addEventListener("click", () => showScreen("intro"));
   $("btn-back").addEventListener("click", () => showScreen("menu"));
   $("btn-start").addEventListener("click", startGame);
@@ -660,6 +692,7 @@ function m2UpdateShot() {
 }
 
 function m2NewRound() {
+  $("victory2").classList.add("hidden");
   const pool = Object.keys(M2_CLUES).filter((w) => w.length >= M2_MIN_LEN && w !== m2.last);
   m2.word = pool[Math.floor(Math.random() * pool.length)];
   m2.last = m2.word;
@@ -687,7 +720,7 @@ function m2NewRound() {
   m2BuildKeys();
   m2UpdateShot();
   m2SetPose("idle");
-  m2Say("Preciso daquele lança-foguetes... Qual é a senha que o Dante colocou mesmo?");
+  m2Say("Preciso da Kalina Ann... Tenho que descobrir essa maldita senha que o Dante colocou rápido!");
   if (!$("m2-context").textContent) typeText($("m2-context"), M2_CONTEXT);
 }
 
@@ -788,7 +821,7 @@ function m2Submit() {
     const crits = result.filter((r) => r === "crit").length;
     const bounces = result.filter((r) => r === "bounce").length;
     m2SetPose("miss", 1300);
-    m2Say(`Disparo falhou: ${crits} crítico(s) e ${bounces} ricochete(s). Restam ${M2_TRIES - m2.row}. Qual é Dante, como você conseguiu pensar nessa senha?`);
+    m2Say(`Disparo falhou: ${crits} crítico(s) e ${bounces} ricochete(s). Restam ${M2_TRIES - m2.row}. Que droga Dante! Como você conseguiu pensar em alguma senha que não seja "Pizza"?`);
   }, tiles.length * 160 + 350);
 }
 
@@ -800,12 +833,14 @@ function m2Finish(won) {
     m2SetPose("win", 0);
     const rank = used <= 2 ? "SSS" : used === 3 ? "SS" : used === 4 ? "S" : used === 5 ? "A" : "B";
     flashRank(rank, `RANK ${rank}!`);
-    m2Say("Consegui! Hora de me juntar ao Dante.");
+    m2Say("Consegui! Eu sabia que o Dante não ia ser inteligente o suficiente pra colocar uma senha dificil.");
     $("m2-msg").textContent = `ACESSO LIBERADO em ${used} disparo(s). Rank ${rank}.`;
+    $("victory2-text").textContent = `Acesso liberado em ${used} disparo(s). Rank ${rank}.`;
+    setTimeout(() => { if (m2.over && !$("game2").classList.contains("hidden")) $("victory2").classList.remove("hidden"); }, 1100);
   } else {
     m2.losses++; m2.streak = 0;
     m2SetPose("miss", 0);
-    m2Say("O sistema bloqueou o arsenal… O Dante vai pagar caro por colocar uma senha tão dificil.");
+    m2Say("O sistema bloqueou o arsenal… Eu vou matar o Dante por ele colocar uma senha tão dificil.");
     $("m2-msg").textContent = `SISTEMA BLOQUEADO. A senha era: ${m2.word}.`;
   }
   m2.row = Math.min(m2.row, M2_TRIES - 1);
@@ -832,12 +867,12 @@ function initMode2() {
 }
 
 /* =========================================================
-   MODO 3 — Corte Dimensional (associação com tempo)
+   MODO 3 — TEMPESTADE DE VERGIL (associação com tempo)
    ========================================================= */
 const M3_GOAL = 10;   // acertos consecutivos para abrir o portal
 const M3_TIME = 10;   // segundos por rodada
 const M3_PENALTY = 2; // pontos perdidos na barra ao errar (ou esgotar o tempo)
-const SECRET_PASSWORD = null; // placeholder: defina a senha real aqui depois
+const SECRET_PASSWORD = "LUZ";
 
 const M3_NAMES = {
   CPU: "CPU", ULA: "ULA", UC: "UC", REGISTRADORES: "Registradores", RAM: "RAM", ROM: "ROM",
@@ -1007,8 +1042,9 @@ function initMode3() {
     if (["1", "2", "3"].includes(e.key)) m3Answer(Number(e.key) - 1);
   });
 
-  // Modo Secreto (placeholder)
+  // Modo Secreto / Protocolo Jackpot
   $("mode-secret").addEventListener("click", () => {
+    if (secretUnlocked) { showScreen("introSecret"); return; }
     $("secret-msg").textContent = "";
     $("secret-input").value = "";
     showScreen("secret");
@@ -1017,12 +1053,342 @@ function initMode3() {
   $("secret-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const typed = normText($("secret-input").value.trim());
-    if (SECRET_PASSWORD === null) {
-      $("secret-msg").textContent = "O modo secreto ainda está em construção.";
-    } else if (typed === normText(SECRET_PASSWORD)) {
-      $("secret-msg").textContent = "ACESSO LIBERADO.";
+    if (typed === normText(SECRET_PASSWORD)) {
+      unlockSecret();
+      showScreen("introSecret");
     } else {
       $("secret-msg").textContent = "SENHA INCORRETA.";
+      $("secret-input").select();
     }
+  });
+  $("btn-back-js").addEventListener("click", () => showScreen("menu"));
+  $("btn-start-js").addEventListener("click", () => runDialogue(DIALOGUE_START, "start", startBoss));
+  $("d-next").addEventListener("click", (e) => { nextDialogue(); e.currentTarget.blur(); });
+  document.addEventListener("keydown", (e) => {
+    if ($("dialogue").classList.contains("hidden")) return;
+    if (e.target.id === "d-next") return; // o próprio botão já trata Enter e espaço
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowRight") { e.preventDefault(); nextDialogue(); }
+  });
+}
+
+/* =========================================================
+   PROTOCOLO JACKPOT (modo secreto) — desbloqueio e diálogo
+   ========================================================= */
+let secretUnlocked = false;
+
+function unlockSecret() {
+  secretUnlocked = true;
+  $("secret-title").textContent = "🔓 Protocolo Jackpot";
+  $("secret-tag").textContent = "MODO SECRETO · DESBLOQUEADO";
+  $("mode-secret").classList.add("unlocked");
+  $("secret-slot").classList.remove("hidden");
+  $("nav-js").classList.remove("hidden");
+}
+
+// ---------- Diálogos (abertura e final) ----------
+// Abertura: o rival começa e os dois alternam (4 falas de cada).
+const DIALOGUE_START = [
+  { who: "rival", text: "Hmph, então você me seguiu pela fenda. Você não entende nada do que está acontecendo, entende? Tudo isso pra você... não significa nada." },
+  { who: "hero", text: "É verdade, desculpa ser o irmão que precisa limpar a caquinha que o outro faz nas brincadeirinhas dele de ficar mais fortinho. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?" },
+  { who: "rival", text: "Estamos no inferno dos servidores. Cada fio aqui respira e obedece a uma única vontade. Meu plano era despertar esse ser e o destruir sozinho, assim eu iria me provar ser alguém mais forte que você e vin-" },
+  { who: "hero", text: "Tá falando sério?! Então seu plano era corromper o mainframe, dar mais energia pra esse bixo feio pra ele acordar, só pra matar ele? O que esse bixo feio tem de tão especial pra você querer tanto matar ele?" },
+  { who: "rival", text: "... Foi essa coisa que matou o nosso pai, Sparda, o herói do inferno. Carregamos o sangue e legado do demônio mais poderoso que já existiu, e foi essa coisa que, sozinha, deu fim ao herói do inferno. Você entende Dante? Nem todo mundo consegue seguir em frente, e se você não tem coragem o suficiente para vingar o nosso pai, então saia da minha frente e observe, eu vou matar essa coisa feia sozinho, aqui e agora!" },
+  { who: "hero", text: "... tá, isso muda tudo. Por que você sempre guarda todos os segredos pra você? Por que essa ambição de poder? Você sempre insistiu em lidar com tudo sozinho, mesmo sabendo que eu iria até a última camada do inferno se fosse por você. Sabe, você me lembra a nossa mãe... Enfim, sinto muito mas eu não tô vendo nenhuma saida, entãooo acho que estamos presos aqui, e se é assim, eu não vou deixar meu irmãozinho lutar sozinho. " },
+  { who: "rival", text: "Você é muito mais lento, fraco e esperto do que eu. Se você for lutar, tenta não ficar no meu caminho." },
+  { who: "hero", text: "Tá tá, mesmo papo de sempre, então vamos começar logo! EI, COISA FEIA! Nós somos os filhos de Sparda, e em vingança ao nosso pai, é melhor você preparar suas últimas palavras... ou pensamentos, sei lá se você consegue falar. Mas é melhor se preparar, porque você vai morrer aqui e agora!" },
+];
+
+// Final: caçador 4 falas, rival 3 e caçadora 2. A caçadora só aparece a partir da 5ª fala.
+const DIALOGUE_END = [
+  { who: "hero", text: "Finalmente essa coisa parou de se mexer, estava realmente achando que a gente não ia conseguir sair dessa." },
+  { who: "rival", text: "A gente conseguiu... será se nosso pai está orgulhoso?" },
+  { who: "hero", text: "... Talvez, mas ele provavelmente só está orgulhoso de mim, porque olha, teve umas 3 vezes que eu salvei o seu coro da morte certa! Você tá me devendo papo de pelo menos 6 pizzas quando a gente voltar." },
+  { who: "rival", text: "Ha, você deve ser cego e surdo irmão, porque bastou eu parar de atacar por meio segundo e você quase foi esmagado por ele umas 12 vezes. É você quem está me devendo irmão, e se você quiser resolver isso, então teremos que nos enfrentar ago-" },
+  { who: "huntress", text: "EI! O QUE VOCÊS ESTÃO FAZENDO?! EU TO TENTANDO ENTRAR EM CONTATO COM VOCÊ A QUASE 6 HORAS DANTE!!! A CIDADE INTEIRA TÁ PARADA POR CONTA DO MAINFRAME CORROMPIDO, OS CLIENTES ESTÂO MALUCOS!!! EU PRECISO QUE VOCÊ VOLTE LOGO E ME AJUDE A LIMPAR ESSA CAGADA!" },
+  { who: "hero", text: "E aí Lady! Você ficou sumida, achei que nem ia aparecer pra festa. E nossa, a gente lutou contra essa coisa feia durante 6 horas? Isso deve explicar a fome que eu tô sentindo. Enfim, preciso limpar a cagada que você fez Vergil, quer ir comigo? Sabe, ia ser legal ter você comigo, como nos velhos tempos. E seria bem tranquilizante saber que meu irmão não tá bolando um plano maléfico sinistro que pode matar milhares de pessoa só pra ficar mais fortinho." },
+  { who: "huntress", text: "EU FIQUEI SUMIDA PORQUE UM ANIMAL, QUE SEMPRE USA 'PIZZA' PARA TODAS AS SENHAS, DECIDIU DO NADA COLOCAR UMA SENHA NOVA NO ARSENAL!!! E O VERGIL PRECISA VIR TAMBÉM! ELE SABE O CÓDIGO E O QUE FAZER PARA FAZER AS COISAS VOLTAREM AO NORMAL!" },
+  { who: "rival", text: "Eu não irei voltar com você. Irei abrir o portal para você, mas assim que você entrar, não espere me ver novamente por um bom tempo irmão. Mas para ajudar, você só precisa desinstalar o launcher da Epic Games do mainframe. O mainframe nem está corrompido, o launcher da Epic Games sozinho tá consumindo todo o processamento e memória." },
+  { who: "huntress", text: "... tá falando sério? O grande problema, que parou a cidade inteira e que poderia causar um desastre mundial em maior escala, é um launcher de uma industria de jogos?" },
+  { who: "hero", text: "Ha, engraçado, e eu só tenho ele instalado por causa dos jogos de graça e Fortnite. Enfim, vamos sair daqui logo, esse cérebro robô sinistro tá começando a feder." },
+];
+
+const DLG_SPEAKERS = {
+  rival: { name: "Vergil", cls: "is-rival", side: "d-left" },
+  hero: { name: "Dante", cls: "is-hero", side: "d-right" },
+  huntress: { name: "Lady", cls: "is-huntress", side: "d-center" },
+};
+const DLG_IMAGES = {
+  start: { left: ["dlgRival", "rival-dialogo-secreto.png"], right: ["dlgHero", "protagonista-dialogo-secreto.png"] },
+  end: {
+    left: ["dlgRivalEnd", "rival-dialogo-final.png"],
+    right: ["dlgHeroEnd", "protagonista-dialogo-final.png"],
+    center: ["dlgHuntressEnd", "cacadora-dialogo-final.png"],
+  },
+};
+
+let dlg = { lines: [], i: 0, mode: "start", onEnd: null, timer: null };
+
+function setDlgImage(imgId, [asset, label]) {
+  const img = $(imgId);
+  img.closest(".slot").dataset.label = label;
+  loadSprite(img, asset);
+}
+
+function runDialogue(lines, mode, onEnd) {
+  dlg = { lines, i: 0, mode, onEnd, timer: null };
+  const set = DLG_IMAGES[mode];
+  setDlgImage("d-left-img", set.left);
+  setDlgImage("d-right-img", set.right);
+  if (set.center) setDlgImage("d-center-img", set.center);
+  $("d-center").style.display = set.center ? "" : "none";
+  $("dialogue").classList.remove("hidden");
+  document.body.classList.add("dark-dialogue");
+  showLine(0);
+}
+
+function showLine(i) {
+  const line = dlg.lines[i];
+  const sp = DLG_SPEAKERS[line.who];
+  $("d-name").textContent = sp.name;
+  $("d-name").className = "d-name " + sp.cls;
+  $("d-count").textContent = `${i + 1} / ${dlg.lines.length}`;
+  ["d-left", "d-right", "d-center"].forEach((id) => $(id).classList.toggle("speaking", id === sp.side));
+  // a Lady só aparece a partir da primeira fala dela
+  if (dlg.mode === "end") {
+    const appeared = dlg.lines.slice(0, i + 1).some((l) => l.who === "huntress");
+    $("d-center").style.visibility = appeared ? "visible" : "hidden";
+  }
+  $("d-next").textContent = i === dlg.lines.length - 1 ? "ENCERRAR ✔" : "PRÓXIMO DIÁLOGO ▶";
+
+  // texto digitado; apertar de novo enquanto digita mostra a fala inteira
+  clearInterval(dlg.timer);
+  const el = $("d-text");
+  el.textContent = "";
+  let n = 0;
+  dlg.timer = setInterval(() => {
+    el.textContent = line.text.slice(0, ++n);
+    if (n >= line.text.length) clearInterval(dlg.timer);
+  }, 22);
+}
+
+function closeDialogue() {
+  clearInterval(dlg.timer);
+  $("dialogue").classList.add("hidden");
+  document.body.classList.remove("dark-dialogue");
+}
+
+function nextDialogue() {
+  const line = dlg.lines[dlg.i];
+  if (!line) return;
+  if ($("d-text").textContent.length < line.text.length) {
+    clearInterval(dlg.timer);
+    $("d-text").textContent = line.text;
+    return;
+  }
+  if (dlg.i >= dlg.lines.length - 1) {
+    closeDialogue();
+    if (dlg.onEnd) dlg.onEnd();
+    return;
+  }
+  showLine(++dlg.i);
+}
+
+/* =========================================================
+   PROTOCOLO JACKPOT — batalha contra o chefe
+   ========================================================= */
+const BOSS_HP = 8;
+const BOSS_LIVES = 3;
+const SYN_MAX = 3;
+
+const boss = {
+  hp: BOSS_HP, lives: BOSS_LIVES, charges: 0, active: false,
+  turn: "hero", word: "", bag: [], lock: false, over: true, options: [], timer: null,
+};
+
+const bossSet = (cond, ms, fn) => { boss.timer = setTimeout(fn, ms); };
+
+function bossBuildBars() {
+  const hp = $("boss-hp"); hp.innerHTML = "";
+  for (let i = 0; i < BOSS_HP; i++) hp.appendChild(document.createElement("i"));
+  const syn = $("boss-syn"); syn.innerHTML = "";
+  for (let i = 0; i < SYN_MAX; i++) syn.appendChild(document.createElement("i"));
+  const lives = $("boss-lives"); lives.innerHTML = "";
+  for (let i = 0; i < BOSS_LIVES; i++) {
+    const s = document.createElement("span");
+    s.textContent = "♥";
+    lives.appendChild(s);
+  }
+}
+
+function bossRender() {
+  [...$("boss-hp").children].forEach((seg, i) => seg.classList.toggle("on", i < boss.hp));
+  $("boss-hp-text").textContent = `HP ${boss.hp} / ${BOSS_HP}`;
+  [...$("boss-lives").children].forEach((h, i) => h.classList.toggle("lost", i >= boss.lives));
+  [...$("boss-syn").children].forEach((seg, i) => seg.classList.toggle("on", i < boss.charges));
+  const btn = $("boss-syn-btn");
+  btn.disabled = !(boss.charges >= SYN_MAX && !boss.active && !boss.lock && !boss.over);
+  btn.textContent = boss.active ? "SINERGIA ATIVA! (PRÓXIMO ACERTO ×3)" : "ATIVAR SINERGIA (JACKPOT)";
+  $("boss-hero-box").classList.toggle("syn-on", boss.active);
+  $("boss-rival-box").classList.toggle("syn-on", boss.active);
+}
+
+function bossSprites() {
+  const h = $("boss-hero-img"), r = $("boss-rival-img");
+  h.dataset.fallback = boss.active ? "bossHero" : "";
+  r.dataset.fallback = boss.active ? "bossRival" : "";
+  loadSprite(h, boss.active ? "heroSyn" : "bossHero");
+  loadSprite(r, boss.active ? "rivalSyn" : "bossRival");
+}
+
+function bossBossPose(hit) {
+  const img = $("boss-img");
+  img.dataset.fallback = hit ? "bossIdle" : "";
+  loadSprite(img, hit ? "bossHit" : "bossIdle");
+  img.closest(".slot").classList.toggle("pose-miss", hit);
+}
+
+function bossNextWord() {
+  if (!boss.bag.length) {
+    boss.bag = shuffle(WORDS.map((w) => w.word));
+    if (boss.bag[boss.bag.length - 1] === boss.word) boss.bag.unshift(boss.bag.pop());
+  }
+  return boss.bag.pop();
+}
+
+function normAnswer(t) {
+  return normText(t).replace(/[^A-Z]/g, ""); // ignora espaços, hífens e acentos
+}
+
+function startBoss() {
+  boss.hp = BOSS_HP; boss.lives = BOSS_LIVES; boss.charges = 0; boss.active = false;
+  boss.turn = "rival"; boss.bag = []; boss.word = ""; boss.over = false; boss.lock = false;
+  ["boss-win", "boss-lose"].forEach((id) => $(id).classList.add("hidden"));
+  showScreen("boss");
+  bossBuildBars();
+  bossBossPose(false);
+  bossSprites();
+  bossNextTurn(); // alterna para "hero": o Caçador abre a batalha
+}
+
+function bossNextTurn() {
+  boss.turn = boss.turn === "hero" ? "rival" : "hero";
+  boss.lock = false;
+  boss.word = bossNextWord();
+  const w = WORDS.find((x) => x.word === boss.word);
+  const isHero = boss.turn === "hero";
+
+  $("boss-q").className = "card boss-q " + (isHero ? "turn-hero" : "turn-rival");
+  $("boss-turn").className = "boss-turn " + (isHero ? "hero" : "rival");
+  $("boss-turn").textContent = isHero ? "TURNO DE DANTE · DIGITE A PALAVRA EXATA" : "TURNO DE VERGIL · ESCOLHA A DEFINIÇÃO CERTA";
+  $("boss-msg").textContent = "";
+  $("boss-form").style.display = isHero ? "" : "none";
+  $("boss-opts").style.display = isHero ? "none" : "";
+
+  if (isHero) {
+    $("boss-prompt").textContent = w.clue;
+    $("boss-input").value = "";
+    $("boss-input").disabled = false;
+    $("boss-input").focus();
+  } else {
+    $("boss-prompt").textContent = M3_NAMES[w.word];
+    const others = shuffle(WORDS.filter((x) => x.word !== w.word && x.clue !== w.clue)).slice(0, 2);
+    boss.options = shuffle([w.clue, ...others.map((x) => x.clue)]);
+    const box = $("boss-opts");
+    box.innerHTML = "";
+    boss.options.forEach((def, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "m3-opt boss-def";
+      b.dataset.i = i;
+      b.innerHTML = `<small>${i + 1}</small>${def}`;
+      b.addEventListener("click", () => { bossAnswerOption(i); b.blur(); });
+      box.appendChild(b);
+    });
+  }
+  bossSprites();
+  bossRender();
+}
+
+function bossAnswerText() {
+  if (boss.lock || boss.over || boss.turn !== "hero") return;
+  const typed = normAnswer($("boss-input").value);
+  if (!typed) return;
+  $("boss-input").disabled = true;
+  bossResolve(typed === boss.word);
+}
+
+function bossAnswerOption(i) {
+  if (boss.lock || boss.over || boss.turn !== "rival") return;
+  const right = boss.options.indexOf(WORDS.find((x) => x.word === boss.word).clue);
+  [...$("boss-opts").children].forEach((b, k) => {
+    b.disabled = true;
+    if (k === right) b.classList.add("right");
+    else if (k === i) b.classList.add("wrong");
+  });
+  bossResolve(i === right);
+}
+
+function bossResolve(hit) {
+  boss.lock = true;
+  const msg = $("boss-msg");
+  let wait = 1200;
+  if (hit) {
+    const crit = boss.active;
+    const dmg = crit ? 3 : 1;
+    boss.hp = Math.max(0, boss.hp - dmg);
+    if (crit) {
+      if (boss.lives < BOSS_LIVES) boss.lives++;
+      boss.active = false; // o efeito acaba; as imagens voltam no próximo turno
+      flashRank("×3", "CRÍTICO TRIPLO!");
+      msg.textContent = `SINERGIA! O chefe perdeu ${dmg} blocos de HP e a dupla recuperou 1 coração.`;
+    } else {
+      boss.charges = Math.min(SYN_MAX, boss.charges + 1);
+      msg.textContent = `ACERTOU! O chefe perdeu 1 bloco de HP.`;
+    }
+    bossBossPose(true);
+    setTimeout(() => bossBossPose(false), 700);
+  } else {
+    boss.lives = Math.max(0, boss.lives - 1);
+    if (!boss.active) boss.charges = 0; // errar antes de ativar esvazia a sinergia
+    const ans = M3_NAMES[boss.word];
+    msg.textContent = `ERROU! A dupla perdeu 1 vida. Era: ${ans}.`;
+    wait = 1700;
+  }
+  bossRender();
+
+  if (boss.hp <= 0) { boss.over = true; bossRender(); return bossSet(0, 1100, bossWin); }
+  if (boss.lives <= 0) { boss.over = true; bossRender(); return bossSet(0, 1500, bossLose); }
+  bossSet(0, wait, bossNextTurn);
+}
+
+function bossActivateSynergy() {
+  if (boss.charges < SYN_MAX || boss.active || boss.lock || boss.over) return;
+  boss.active = true;
+  boss.charges = 0; // as cargas são consumidas
+  bossSprites();
+  bossRender();
+  $("boss-msg").textContent = "SINERGIA ATIVADA! O próximo acerto causa dano triplo.";
+}
+
+function bossWin() {
+  $("boss-win").classList.remove("hidden");
+}
+
+function bossLose() {
+  $("boss-lose").classList.remove("hidden");
+}
+
+function initBoss() {
+  $("boss-form").addEventListener("submit", (e) => { e.preventDefault(); bossAnswerText(); });
+  $("boss-syn-btn").addEventListener("click", (e) => { bossActivateSynergy(); e.currentTarget.blur(); });
+  $("btn-retry-boss").addEventListener("click", startBoss);
+  $("btn-menu-boss").addEventListener("click", () => { $("boss-lose").classList.add("hidden"); showScreen("menu"); });
+  $("btn-finish-story").addEventListener("click", () => {
+    $("boss-win").classList.add("hidden");
+    runDialogue(DIALOGUE_END, "end", () => showScreen("menu"));
+  });
+  document.addEventListener("keydown", (e) => {
+    if ($("boss").classList.contains("hidden") || !$("dialogue").classList.contains("hidden")) return;
+    if (["1", "2", "3"].includes(e.key) && boss.turn === "rival") bossAnswerOption(Number(e.key) - 1);
   });
 }
