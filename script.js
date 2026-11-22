@@ -396,8 +396,13 @@ function onBoardEvents() {
   const board = $("board");
 
   board.addEventListener("focusin", (e) => {
-    if (e.target.tagName === "INPUT") selectCell(e.target.dataset.key);
+    if (e.target.tagName !== "INPUT") return;
+    // se a casa já é a ativa, o foco veio do próprio jogo (digitação, setas ou pista):
+    // não alterna a direção. Só o clique do jogador alterna (ver "mousedown" abaixo).
+    if (e.target.dataset.key === activeKey) return;
+    selectCell(e.target.dataset.key);
   });
+
   board.addEventListener("mousedown", (e) => {
     const input = e.target.closest(".cell")?.querySelector("input");
     if (input && document.activeElement === input)
@@ -1361,7 +1366,7 @@ function startMode3() {
 function initMode3() {
   ["rivalIdle", "rivalCut", "rivalMiss"].forEach((k) => {
     new Image().src = ASSETS[k];
-  }); 
+  });
   $("mode-3").addEventListener("click", () => showScreen("intro3"));
   $("nav-m3").addEventListener("click", goMode3);
   $("btn-back3").addEventListener("click", () => showScreen("menu"));
@@ -1456,7 +1461,7 @@ const DIALOGUE_START = [
   },
   {
     who: "hero",
-    text: "É verdade, desculpa ser o irmão que precisa limpar a caquinha que o outro faz nas brincadeirinhas dele de ficar mais fortinho. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?",
+    text: "É verdade, desculpa ser o irmão que precisa limpar a cagadas que o outro faz nas brincadeirinhas dele de ficar mais forte. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?",
   },
   {
     who: "rival",
