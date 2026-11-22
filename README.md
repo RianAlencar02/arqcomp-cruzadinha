@@ -2,7 +2,7 @@
 
 Um jogo web interativo desenvolvido para treinar e fixar conceitos de **Arquitetura Computacional**. Estilizado em pixel art 2D retrô, o projeto é inspirado no universo de **Devil May Cry**, unindo caçadores de demônios, portais dimensionais e fundamentos de hardware.
 
-🔗 **Acesse o repositório e o jogo online:** [https://github.com/RianAlencar02/arqcomp-cruzadinha](https://github.com/RianAlencar02/arqcomp-cruzadinha)
+🔗 **Acesse o repositório e o jogo online:** [https://github.com/RianAlencar02/arqcomp-cruzadinha](https://rianalencar02.github.io/arqcomp-cruzadinha/)
 
 ---
 

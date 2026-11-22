@@ -614,3 +614,5 @@ img { image-rendering: pixelated; image-rendering: crisp-edges; }
 .slot.size-card.missing::after { font-size: 8px; }
 /* card do modo secreto: faixa mais larga ainda (16:7) */
 .secret-card .slot.size-card { width: min(100%, 560px); aspect-ratio: 16 / 7; }
+
+.slot.pose-cut { animation: hop .45s ease-out 2; }

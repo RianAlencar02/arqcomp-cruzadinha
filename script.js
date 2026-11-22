@@ -5,22 +5,118 @@
 
 // ---------- Dados do tabuleiro (posições validadas) e pistas ----------
 const WORDS = [
-  { word: "MEMORIADEMASSA", row: 0, col: 0, dir: "V", clue: "Dispositivo de grande capacidade e baixa velocidade, como HD ou SSD, que guarda arquivos." },
-  { word: "DATABUS", row: 0, col: 6, dir: "V", clue: "Via bidirecional que carrega o conteúdo trocado entre CPU, memória e periféricos." },
-  { word: "FLASH", row: 1, col: 4, dir: "H", clue: "Memória não volátil regravável em blocos, usada em pen drives e SSDs." },
-  { word: "REGISTRADORES", row: 2, col: 9, dir: "V", clue: "Minúsculas áreas dentro da CPU, rapidíssimas, que guardam dados em uso imediato." },
-  { word: "MICROCONTROLADOR", row: 3, col: 3, dir: "V", clue: "Chip único com CPU, memória e portas de entrada e saída, típico de sistemas embarcados." },
-  { word: "RAM", row: 3, col: 5, dir: "H", clue: "Memória principal e volátil: perde o conteúdo quando a energia acaba." },
-  { word: "ADDRESSBUS", row: 6, col: 0, dir: "H", clue: "Via de sentido único que informa a posição de memória a ser lida ou escrita." },
-  { word: "DUALCORE", row: 9, col: 7, dir: "V", clue: "Chip com duas unidades de processamento independentes, que trabalham em paralelo." },
-  { word: "DMA", row: 9, col: 7, dir: "H", clue: "Técnica que deixa periféricos trocarem dados com a memória sem ocupar a CPU." },
-  { word: "ROM", row: 9, col: 2, dir: "H", clue: "Memória gravada na fábrica, imutável pelo usuário, que mantém o conteúdo sem energia." },
-  { word: "CPU", row: 10, col: 5, dir: "H", clue: "Cérebro do computador: busca, decodifica e executa as instruções dos programas." },
-  { word: "UC", row: 12, col: 5, dir: "V", clue: "Parte da CPU que interpreta instruções e comanda os demais componentes." },
-  { word: "CACHE", row: 13, col: 5, dir: "H", clue: "Memória pequena e muito rápida entre CPU e RAM que guarda o mais usado." },
-  { word: "ULA", row: 14, col: 2, dir: "H", clue: "Parte da CPU que faz as contas e as operações lógicas." },
-  { word: "QUADCORE", row: 16, col: 0, dir: "H", clue: "Chip com quatro unidades de processamento independentes, que trabalham em paralelo." },
-  { word: "EEPROM", row: 18, col: 0, dir: "H", clue: "Memória não volátil regravável byte a byte, sem precisar retirar o chip da placa." },
+  {
+    word: "MEMORIADEMASSA",
+    row: 0,
+    col: 0,
+    dir: "V",
+    clue: "Dispositivo de grande capacidade e baixa velocidade, como HD ou SSD, que guarda arquivos.",
+  },
+  {
+    word: "DATABUS",
+    row: 0,
+    col: 6,
+    dir: "V",
+    clue: "Via bidirecional que carrega o conteúdo trocado entre CPU, memória e periféricos.",
+  },
+  {
+    word: "FLASH",
+    row: 1,
+    col: 4,
+    dir: "H",
+    clue: "Memória não volátil regravável em blocos, usada em pen drives e SSDs.",
+  },
+  {
+    word: "REGISTRADORES",
+    row: 2,
+    col: 9,
+    dir: "V",
+    clue: "Minúsculas áreas dentro da CPU, rapidíssimas, que guardam dados em uso imediato.",
+  },
+  {
+    word: "MICROCONTROLADOR",
+    row: 3,
+    col: 3,
+    dir: "V",
+    clue: "Chip único com CPU, memória e portas de entrada e saída, típico de sistemas embarcados.",
+  },
+  {
+    word: "RAM",
+    row: 3,
+    col: 5,
+    dir: "H",
+    clue: "Memória principal e volátil: perde o conteúdo quando a energia acaba.",
+  },
+  {
+    word: "ADDRESSBUS",
+    row: 6,
+    col: 0,
+    dir: "H",
+    clue: "Via de sentido único que informa a posição de memória a ser lida ou escrita.",
+  },
+  {
+    word: "DUALCORE",
+    row: 9,
+    col: 7,
+    dir: "V",
+    clue: "Chip com duas unidades de processamento independentes, que trabalham em paralelo.",
+  },
+  {
+    word: "DMA",
+    row: 9,
+    col: 7,
+    dir: "H",
+    clue: "Técnica que deixa periféricos trocarem dados com a memória sem ocupar a CPU.",
+  },
+  {
+    word: "ROM",
+    row: 9,
+    col: 2,
+    dir: "H",
+    clue: "Memória gravada na fábrica, imutável pelo usuário, que mantém o conteúdo sem energia.",
+  },
+  {
+    word: "CPU",
+    row: 10,
+    col: 5,
+    dir: "H",
+    clue: "Cérebro do computador: busca, decodifica e executa as instruções dos programas.",
+  },
+  {
+    word: "UC",
+    row: 12,
+    col: 5,
+    dir: "V",
+    clue: "Parte da CPU que interpreta instruções e comanda os demais componentes.",
+  },
+  {
+    word: "CACHE",
+    row: 13,
+    col: 5,
+    dir: "H",
+    clue: "Memória pequena e muito rápida entre CPU e RAM que guarda o mais usado.",
+  },
+  {
+    word: "ULA",
+    row: 14,
+    col: 2,
+    dir: "H",
+    clue: "Parte da CPU que faz as contas e as operações lógicas.",
+  },
+  {
+    word: "QUADCORE",
+    row: 16,
+    col: 0,
+    dir: "H",
+    clue: "Chip com quatro unidades de processamento independentes, que trabalham em paralelo.",
+  },
+  {
+    word: "EEPROM",
+    row: 18,
+    col: 0,
+    dir: "H",
+    clue: "Memória não volátil regravável byte a byte, sem precisar retirar o chip da placa.",
+  },
 ];
 
 const ROWS = 19;
@@ -83,29 +179,39 @@ function loadSprite(img, asset) {
     }
     if (slot) slot.classList.add("missing");
   };
-  if (img.complete && img.naturalWidth > 0 && img.getAttribute("src") === ASSETS[asset]) {
+  if (
+    img.complete &&
+    img.naturalWidth > 0 &&
+    img.getAttribute("src") === ASSETS[asset]
+  ) {
     if (slot) slot.classList.remove("missing");
     return;
   }
-  if (slot) slot.classList.add("missing");
+  if (slot && !img.getAttribute("src")) slot.classList.add("missing");
   img.src = ASSETS[asset];
 }
 
 function initImages() {
-  document.querySelectorAll("img.sprite").forEach((img) => loadSprite(img, img.dataset.asset));
+  document
+    .querySelectorAll("img.sprite")
+    .forEach((img) => loadSprite(img, img.dataset.asset));
   // cenário: só aparece por cima do desenho padrão se o arquivo existir
   const bg = $("bg-img");
   if (bg) {
     bg.style.display = "none";
-    bg.onload = () => { bg.style.display = ""; };
-    bg.onerror = () => { bg.style.display = "none"; };
+    bg.onload = () => {
+      bg.style.display = "";
+    };
+    bg.onerror = () => {
+      bg.style.display = "none";
+    };
     bg.src = ASSETS.bg;
   }
 }
 
 // ---------- Estado ----------
-const cells = new Map();      // "r,c" -> { r, c, el, input, correct, wordIdx: [] }
-let numberAt = new Map();     // "r,c" -> número
+const cells = new Map(); // "r,c" -> { r, c, el, input, correct, wordIdx: [] }
+let numberAt = new Map(); // "r,c" -> número
 let activeWord = 0;
 let activeKey = null;
 let hints = 0;
@@ -119,7 +225,11 @@ const key = (r, c) => `${r},${c}`;
 const cellsOf = (w) => {
   const out = [];
   for (let i = 0; i < w.word.length; i++) {
-    out.push(w.dir === "H" ? cells.get(key(w.row, w.col + i)) : cells.get(key(w.row + i, w.col)));
+    out.push(
+      w.dir === "H"
+        ? cells.get(key(w.row, w.col + i))
+        : cells.get(key(w.row + i, w.col)),
+    );
   }
   return out;
 };
@@ -146,7 +256,8 @@ function buildBoard() {
       const r = w.dir === "V" ? w.row + i : w.row;
       const c = w.dir === "H" ? w.col + i : w.col;
       const k = key(r, c);
-      if (!cells.has(k)) cells.set(k, { r, c, correct: w.word[i], wordIdx: [] });
+      if (!cells.has(k))
+        cells.set(k, { r, c, correct: w.word[i], wordIdx: [] });
       cells.get(k).wordIdx.push(idx);
     }
   });
@@ -187,7 +298,9 @@ function buildBoard() {
 
 function buildClues() {
   const lists = { H: $("clues-h"), V: $("clues-v") };
-  const sorted = WORDS.map((w, i) => ({ w, i })).sort((a, b) => a.w.num - b.w.num);
+  const sorted = WORDS.map((w, i) => ({ w, i })).sort(
+    (a, b) => a.w.num - b.w.num,
+  );
   sorted.forEach(({ w, i }) => {
     const li = document.createElement("li");
     li.dataset.idx = i;
@@ -238,7 +351,10 @@ function render() {
 
 // ---------- Teclado ----------
 function normalizeLetter(v) {
-  return v.normalize("NFD").replace(/[^A-Za-z]/g, "").toUpperCase();
+  return v
+    .normalize("NFD")
+    .replace(/[^A-Za-z]/g, "")
+    .toUpperCase();
 }
 
 function moveInWord(step) {
@@ -254,7 +370,8 @@ function moveInWord(step) {
 
 function moveArrow(dr, dc) {
   const cell = cells.get(activeKey);
-  let r = cell.r + dr, c = cell.c + dc;
+  let r = cell.r + dr,
+    c = cell.c + dc;
   while (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
     const n = cells.get(key(r, c));
     if (n) {
@@ -266,7 +383,8 @@ function moveArrow(dr, dc) {
       n.input.focus();
       return;
     }
-    r += dr; c += dc;
+    r += dr;
+    c += dc;
   }
 }
 
@@ -282,7 +400,8 @@ function onBoardEvents() {
   });
   board.addEventListener("mousedown", (e) => {
     const input = e.target.closest(".cell")?.querySelector("input");
-    if (input && document.activeElement === input) selectCell(input.dataset.key);
+    if (input && document.activeElement === input)
+      selectCell(input.dataset.key);
   });
 
   board.addEventListener("input", (e) => {
@@ -299,19 +418,43 @@ function onBoardEvents() {
     const input = e.target;
     if (input.tagName !== "INPUT") return;
     switch (e.key) {
-      case "ArrowLeft": e.preventDefault(); moveArrow(0, -1); break;
-      case "ArrowRight": e.preventDefault(); moveArrow(0, 1); break;
-      case "ArrowUp": e.preventDefault(); moveArrow(-1, 0); break;
-      case "ArrowDown": e.preventDefault(); moveArrow(1, 0); break;
+      case "ArrowLeft":
+        e.preventDefault();
+        moveArrow(0, -1);
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        moveArrow(0, 1);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        moveArrow(-1, 0);
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        moveArrow(1, 0);
+        break;
       case "Backspace":
-        if (!input.value) { e.preventDefault(); moveInWord(-1); const p = cells.get(activeKey); p.input.value = ""; clearMarks(p); }
+        if (!input.value) {
+          e.preventDefault();
+          moveInWord(-1);
+          const p = cells.get(activeKey);
+          p.input.value = "";
+          clearMarks(p);
+        }
         break;
       case "Tab": {
         e.preventDefault();
-        selectWord((activeWord + (e.shiftKey ? WORDS.length - 1 : 1)) % WORDS.length, true);
+        selectWord(
+          (activeWord + (e.shiftKey ? WORDS.length - 1 : 1)) % WORDS.length,
+          true,
+        );
         break;
       }
-      case "Enter": e.preventDefault(); conferir(); break;
+      case "Enter":
+        e.preventDefault();
+        conferir();
+        break;
     }
   });
 }
@@ -329,13 +472,17 @@ function conferir() {
   const states = WORDS.map(wordState);
   // primeiro marca as erradas, depois as certas (o cruzamento certo prevalece)
   WORDS.forEach((w, i) => {
-    if (states[i] === "bad") cellsOf(w).forEach((c) => c.el.classList.add("bad"));
+    if (states[i] === "bad")
+      cellsOf(w).forEach((c) => c.el.classList.add("bad"));
   });
   WORDS.forEach((w, i) => {
     w.li.classList.remove("ok", "bad");
     if (states[i] === "ok") {
       ok++;
-      cellsOf(w).forEach((c) => { c.el.classList.remove("bad"); c.el.classList.add("ok"); });
+      cellsOf(w).forEach((c) => {
+        c.el.classList.remove("bad");
+        c.el.classList.add("ok");
+      });
       w.li.classList.add("ok");
     } else if (states[i] === "bad") {
       w.li.classList.add("bad");
@@ -344,7 +491,10 @@ function conferir() {
   checked = true;
   const wrong = states.filter((s) => s === "bad").length;
   const pending = states.filter((s) => s === "pending").length;
-  if (ok > lastOk) { setPose("win", 1800); flashRank("SSS", "RANK SSS!"); }
+  if (ok > lastOk) {
+    setPose("win", 1800);
+    flashRank("SSS", "RANK SSS!");
+  }
   lastOk = ok;
   if (ok === WORDS.length) {
     say("JACKPOT! Rank SSS no estilo!");
@@ -359,7 +509,10 @@ function conferir() {
 function dica() {
   const w = WORDS[activeWord];
   const target = cellsOf(w).find((c) => c.input.value !== c.correct);
-  if (!target) { say("Eu palavra já está certa. Me ajuda ai com outra dica!"); return; }
+  if (!target) {
+    say("Eu palavra já está certa. Me ajuda ai com outra dica!");
+    return;
+  }
   target.input.value = target.correct;
   clearMarks(target);
   target.el.classList.add("hint");
@@ -384,9 +537,15 @@ function resposta() {
 }
 
 function reiniciar() {
-  cells.forEach((cell) => { cell.input.value = ""; clearMarks(cell); });
+  cells.forEach((cell) => {
+    cell.input.value = "";
+    clearMarks(cell);
+  });
   WORDS.forEach((w) => w.li.classList.remove("ok", "bad"));
-  hints = 0; reveals = 0; checked = false; lastOk = 0;
+  hints = 0;
+  reveals = 0;
+  checked = false;
+  lastOk = 0;
   setPose("idle");
   $("status").textContent = `0 de ${WORDS.length} palavras`;
   $("victory").classList.add("hidden");
@@ -400,7 +559,9 @@ function updateCounters() {
   $("reveals").textContent = reveals;
 }
 
-function say(text) { $("speech").textContent = text; }
+function say(text) {
+  $("speech").textContent = text;
+}
 
 function setPose(pose, ms) {
   const img = $("hero-main");
@@ -409,7 +570,8 @@ function setPose(pose, ms) {
   img.dataset.fallback = pose === "idle" ? "" : "idle";
   loadSprite(img, pose);
   img.closest(".slot").classList.toggle("pose-" + pose, true);
-  ["idle", "win", "think"].filter((p) => p !== pose)
+  ["idle", "win", "think"]
+    .filter((p) => p !== pose)
     .forEach((p) => img.closest(".slot").classList.remove("pose-" + p));
   if (ms) poseTimer = setTimeout(() => setPose("idle"), ms);
 }
@@ -461,7 +623,18 @@ function typeContext(text) {
 let mode1Started = false;
 
 function showScreen(name) {
-  ["menu", "intro", "game", "intro2", "game2", "intro3", "game3", "secret", "introSecret", "boss"].forEach((id) => $(id).classList.toggle("hidden", id !== name));
+  [
+    "menu",
+    "intro",
+    "game",
+    "intro2",
+    "game2",
+    "intro3",
+    "game3",
+    "secret",
+    "introSecret",
+    "boss",
+  ].forEach((id) => $(id).classList.toggle("hidden", id !== name));
   const labels = {
     menu: "ESCOLHA SEU MODO",
     intro: "MODO 1 · CRUZADINHA DO DANTE",
@@ -478,17 +651,33 @@ function showScreen(name) {
   if (name !== "boss" && typeof boss !== "undefined") clearTimeout(boss.timer);
   $("nav").classList.toggle("hidden", name === "menu");
   $("nav-m1").classList.toggle("current", name === "intro" || name === "game");
-  $("nav-m2").classList.toggle("current", name === "intro2" || name === "game2");
-  $("nav-m3").classList.toggle("current", name === "intro3" || name === "game3");
-  $("nav-js").classList.toggle("current", name === "introSecret" || name === "boss");
+  $("nav-m2").classList.toggle(
+    "current",
+    name === "intro2" || name === "game2",
+  );
+  $("nav-m3").classList.toggle(
+    "current",
+    name === "intro3" || name === "game3",
+  );
+  $("nav-js").classList.toggle(
+    "current",
+    name === "introSecret" || name === "boss",
+  );
 }
 
-function goMode1() { showScreen(mode1Started ? "game" : "intro"); }
-function goMode2() { showScreen(m2.started ? "game2" : "intro2"); }
+function goMode1() {
+  showScreen(mode1Started ? "game" : "intro");
+}
+function goMode2() {
+  showScreen(m2.started ? "game2" : "intro2");
+}
 function startMode2() {
   showScreen("game2");
   // retoma a rodada em andamento; se não houver uma, começa uma nova
-  if (!m2.started || m2.over) { m2.started = true; m2NewRound(); }
+  if (!m2.started || m2.over) {
+    m2.started = true;
+    m2NewRound();
+  }
 }
 
 function startGame() {
@@ -506,8 +695,14 @@ function init() {
   initImages();
   drawBackground();
   $("mode-2").addEventListener("click", () => showScreen("intro2"));
-  $("btn-again2").addEventListener("click", () => { $("victory2").classList.add("hidden"); m2NewRound(); });
-  $("btn-menu2").addEventListener("click", () => { $("victory2").classList.add("hidden"); showScreen("menu"); });
+  $("btn-again2").addEventListener("click", () => {
+    $("victory2").classList.add("hidden");
+    m2NewRound();
+  });
+  $("btn-menu2").addEventListener("click", () => {
+    $("victory2").classList.add("hidden");
+    showScreen("menu");
+  });
   $("nav-menu").addEventListener("click", () => showScreen("menu"));
   $("nav-m1").addEventListener("click", goMode1);
   $("nav-m2").addEventListener("click", goMode2);
@@ -539,15 +734,19 @@ function init() {
 
 document.addEventListener("DOMContentLoaded", init);
 
-
 // ---------- Cenário: interior da agência (pixel art 160x90) ----------
 function drawBackground() {
   const cv = $("bg");
   if (!cv) return;
-  const W = 160, H = 90;
-  cv.width = W; cv.height = H;
+  const W = 160,
+    H = 90;
+  cv.width = W;
+  cv.height = H;
   const g = cv.getContext("2d");
-  const rect = (c, x, y, w, h) => { g.fillStyle = c; g.fillRect(x, y, w, h); };
+  const rect = (c, x, y, w, h) => {
+    g.fillStyle = c;
+    g.fillRect(x, y, w, h);
+  };
 
   // parede de tijolos escuros
   rect("#1a0b22", 0, 0, W, 66);
@@ -569,16 +768,24 @@ function drawBackground() {
   rect("#0f2a4a", 118, 10, 30, 30);
   rect("#f1e6ff", 138, 14, 5, 5);
   rect("#0f2a4a", 140, 14, 2, 2);
-  [[118, 28, 6, 12], [125, 24, 5, 16], [131, 30, 7, 10], [139, 26, 5, 14], [145, 31, 3, 9]]
-    .forEach(([x, y, w, h]) => rect("#07121f", x, y, w, h));
+  [
+    [118, 28, 6, 12],
+    [125, 24, 5, 16],
+    [131, 30, 7, 10],
+    [139, 26, 5, 14],
+    [145, 31, 3, 9],
+  ].forEach(([x, y, w, h]) => rect("#07121f", x, y, w, h));
   rect("#0b0610", 132, 10, 2, 30);
   rect("#0b0610", 118, 24, 30, 2);
   rect("rgba(120,160,255,0.07)", 106, 42, 50, 24);
 
   // cartazes
-  rect("#0b0610", 12, 14, 18, 24); rect("#4b1f7a", 14, 16, 14, 20);
-  rect("#e0113a", 17, 21, 8, 8); rect("#0a0610", 20, 24, 2, 2);
-  rect("#0b0610", 34, 20, 12, 16); rect("#14513a", 36, 22, 8, 12);
+  rect("#0b0610", 12, 14, 18, 24);
+  rect("#4b1f7a", 14, 16, 14, 20);
+  rect("#e0113a", 17, 21, 8, 8);
+  rect("#0a0610", 20, 24, 2, 2);
+  rect("#0b0610", 34, 20, 12, 16);
+  rect("#14513a", 36, 22, 8, 12);
   rect("#ff8a1f", 38, 26, 4, 4);
 
   // luminária pendurada com brilho vermelho
@@ -586,32 +793,41 @@ function drawBackground() {
   rect("#8f0b26", 74, 10, 12, 4);
   rect("#e0113a", 76, 12, 8, 2);
   const glow = g.createRadialGradient(80, 14, 2, 80, 30, 44);
-  glow.addColorStop(0, "rgba(224,17,58,0.35)"); glow.addColorStop(1, "rgba(224,17,58,0)");
-  g.fillStyle = glow; g.fillRect(30, 0, 100, 70);
+  glow.addColorStop(0, "rgba(224,17,58,0.35)");
+  glow.addColorStop(1, "rgba(224,17,58,0)");
+  g.fillStyle = glow;
+  g.fillRect(30, 0, 100, 70);
 
   // mesa
   rect("#0b0610", 52, 55, 70, 3);
   rect("#4a2a1a", 52, 56, 70, 4);
   rect("#33190f", 54, 60, 66, 16);
   rect("#0b0610", 54, 66, 66, 1);
-  rect("#0b0610", 66, 61, 20, 5); rect("#8a8fa8", 67, 62, 18, 3); // gaveta
+  rect("#0b0610", 66, 61, 20, 5);
+  rect("#8a8fa8", 67, 62, 18, 3); // gaveta
 
   // monitor retrô
   rect("#0b0610", 78, 34, 30, 22);
   rect("#cfc6b4", 79, 35, 28, 20);
   rect("#04140f", 81, 37, 24, 15);
-  for (let i = 0; i < 4; i++) rect("#7dffb0", 83, 39 + i * 3, 8 + ((i * 7) % 12), 1);
+  for (let i = 0; i < 4; i++)
+    rect("#7dffb0", 83, 39 + i * 3, 8 + ((i * 7) % 12), 1);
   rect("#7dffb0", 100, 49, 3, 2);
   rect("#9d9482", 88, 55, 10, 2);
   // teclado e caneca
-  rect("#0b0610", 80, 53, 26, 3); rect("#5a5a78", 81, 53, 24, 2);
-  rect("#e0113a", 58, 49, 6, 6); rect("#0b0610", 64, 51, 2, 3);
+  rect("#0b0610", 80, 53, 26, 3);
+  rect("#5a5a78", 81, 53, 24, 2);
+  rect("#e0113a", 58, 49, 6, 6);
+  rect("#0b0610", 64, 51, 2, 3);
 
   // vinheta de sombras nas laterais
   const v = g.createLinearGradient(0, 0, W, 0);
-  v.addColorStop(0, "rgba(0,0,0,0.55)"); v.addColorStop(0.3, "rgba(0,0,0,0)");
-  v.addColorStop(0.7, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(0,0,0,0.55)");
-  g.fillStyle = v; g.fillRect(0, 0, W, H);
+  v.addColorStop(0, "rgba(0,0,0,0.55)");
+  v.addColorStop(0.3, "rgba(0,0,0,0)");
+  v.addColorStop(0.7, "rgba(0,0,0,0)");
+  v.addColorStop(1, "rgba(0,0,0,0.55)");
+  g.fillStyle = v;
+  g.fillRect(0, 0, W, H);
 }
 
 /* =========================================================
@@ -627,27 +843,44 @@ const M2_CONTEXT =
 const M2_CLUES = {
   CPU: "O cérebro da máquina: busca e executa cada instrução dos programas.",
   ULA: "Setor da CPU responsável pelas contas e pelas decisões lógicas.",
-  REGISTRADORES: "Gavetas ultrarrápidas dentro da CPU, guardando o que está em uso agora.",
+  REGISTRADORES:
+    "Gavetas ultrarrápidas dentro da CPU, guardando o que está em uso agora.",
   RAM: "Memória de trabalho do sistema: perde tudo quando a energia acaba.",
   ROM: "Memória gravada na fábrica; mantém o conteúdo mesmo sem energia.",
-  EEPROM: "Memória permanente regravável byte a byte, sem tirar o chip da placa.",
+  EEPROM:
+    "Memória permanente regravável byte a byte, sem tirar o chip da placa.",
   FLASH: "Memória permanente regravável em blocos, comum em pen drives e SSDs.",
   CACHE: "Memória pequena e ultrarrápida que guarda o que a CPU mais usa.",
-  MEMORIADEMASSA: "Depósito de grande capacidade e baixa velocidade para arquivos: HD ou SSD.",
+  MEMORIADEMASSA:
+    "Depósito de grande capacidade e baixa velocidade para arquivos: HD ou SSD.",
   DMA: "Atalho que deixa periféricos acessarem a memória sem incomodar a CPU.",
-  ADDRESSBUS: "Via de mão única que diz à memória qual posição será lida ou escrita.",
-  DATABUS: "Via de mão dupla que leva o conteúdo entre CPU, memória e periféricos.",
-  MICROCONTROLADOR: "Chip completo em miniatura, com CPU e memória, que comanda aparelhos embarcados.",
-  DUALCORE: "Processador com duas unidades de processamento trabalhando em paralelo no mesmo chip.",
-  QUADCORE: "Processador com quatro unidades de processamento trabalhando em paralelo no mesmo chip.",
+  ADDRESSBUS:
+    "Via de mão única que diz à memória qual posição será lida ou escrita.",
+  DATABUS:
+    "Via de mão dupla que leva o conteúdo entre CPU, memória e periféricos.",
+  MICROCONTROLADOR:
+    "Chip completo em miniatura, com CPU e memória, que comanda aparelhos embarcados.",
+  DUALCORE:
+    "Processador com duas unidades de processamento trabalhando em paralelo no mesmo chip.",
+  QUADCORE:
+    "Processador com quatro unidades de processamento trabalhando em paralelo no mesmo chip.",
 };
 
 const M2_ROWS_KEYS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
 const m2 = {
-  started: false, word: "", last: "", row: 0, cur: "",
-  over: false, busy: false, wins: 0, losses: 0, streak: 0,
-  keyState: {}, poseTimer: null,
+  started: false,
+  word: "",
+  last: "",
+  row: 0,
+  cur: "",
+  over: false,
+  busy: false,
+  wins: 0,
+  losses: 0,
+  streak: 0,
+  keyState: {},
+  poseTimer: null,
 };
 
 function typeText(el, text) {
@@ -659,16 +892,25 @@ function typeText(el, text) {
   }, 10);
 }
 
-function m2Say(text) { $("m2-speech").textContent = text; }
+function m2Say(text) {
+  $("m2-speech").textContent = text;
+}
 
 function m2SetPose(pose, ms) {
   const img = $("hero2-main");
   const slot = img.closest(".slot");
   clearTimeout(m2.poseTimer);
-  const key = pose === "win" ? "huntressHit" : pose === "miss" ? "huntressMiss" : "huntress";
+  const key =
+    pose === "win"
+      ? "huntressHit"
+      : pose === "miss"
+        ? "huntressMiss"
+        : "huntress";
   img.dataset.fallback = pose === "idle" ? "" : "huntress";
   loadSprite(img, key);
-  ["win", "miss"].forEach((p) => slot.classList.toggle("pose-" + p, p === pose));
+  ["win", "miss"].forEach((p) =>
+    slot.classList.toggle("pose-" + p, p === pose),
+  );
   if (ms) m2.poseTimer = setTimeout(() => m2SetPose("idle"), ms);
 }
 
@@ -680,12 +922,17 @@ function evalGuess(guess, answer) {
     else left[answer[i]] = (left[answer[i]] || 0) + 1;
   }
   for (let i = 0; i < guess.length; i++) {
-    if (res[i] !== "crit" && left[guess[i]] > 0) { res[i] = "bounce"; left[guess[i]]--; }
+    if (res[i] !== "crit" && left[guess[i]] > 0) {
+      res[i] = "bounce";
+      left[guess[i]]--;
+    }
   }
   return res;
 }
 
-function m2Tiles(row) { return [...$("m2-grid").children[row].children]; }
+function m2Tiles(row) {
+  return [...$("m2-grid").children[row].children];
+}
 
 function m2UpdateShot() {
   $("m2-shot").textContent = `${Math.min(m2.row + 1, M2_TRIES)} de ${M2_TRIES}`;
@@ -693,10 +940,16 @@ function m2UpdateShot() {
 
 function m2NewRound() {
   $("victory2").classList.add("hidden");
-  const pool = Object.keys(M2_CLUES).filter((w) => w.length >= M2_MIN_LEN && w !== m2.last);
+  const pool = Object.keys(M2_CLUES).filter(
+    (w) => w.length >= M2_MIN_LEN && w !== m2.last,
+  );
   m2.word = pool[Math.floor(Math.random() * pool.length)];
   m2.last = m2.word;
-  m2.row = 0; m2.cur = ""; m2.over = false; m2.busy = false; m2.keyState = {};
+  m2.row = 0;
+  m2.cur = "";
+  m2.over = false;
+  m2.busy = false;
+  m2.keyState = {};
 
   // tabuleiro com exatamente uma coluna por letra da palavra sorteada
   const grid = $("m2-grid");
@@ -720,7 +973,9 @@ function m2NewRound() {
   m2BuildKeys();
   m2UpdateShot();
   m2SetPose("idle");
-  m2Say("Preciso da Kalina Ann... Tenho que descobrir essa maldita senha que o Dante colocou rápido!");
+  m2Say(
+    "Preciso da Kalina Ann... Tenho que descobrir essa maldita senha que o Dante colocou rápido!",
+  );
   if (!$("m2-context").textContent) typeText($("m2-context"), M2_CONTEXT);
 }
 
@@ -743,7 +998,10 @@ function m2Key(label, value, extra) {
   b.className = "key" + (extra ? " " + extra : "");
   b.textContent = label;
   b.dataset.key = value;
-  b.addEventListener("click", () => { m2Press(value); b.blur(); });
+  b.addEventListener("click", () => {
+    m2Press(value);
+    b.blur();
+  });
   return b;
 }
 
@@ -783,7 +1041,8 @@ function m2Submit() {
   if (m2.over || m2.busy) return;
   if (m2.cur.length < m2.word.length) {
     m2Shake();
-    $("m2-msg").textContent = `Faltam ${m2.word.length - m2.cur.length} letra(s) para o disparo.`;
+    $("m2-msg").textContent =
+      `Faltam ${m2.word.length - m2.cur.length} letra(s) para o disparo.`;
     return;
   }
   const guess = m2.cur;
@@ -798,49 +1057,75 @@ function m2Submit() {
     }, i * 160);
   });
 
-  setTimeout(() => {
-    // atualiza o teclado (crítico > ricochete > ausente)
-    const rank = { miss: 1, bounce: 2, crit: 3 };
-    [...guess].forEach((ch, i) => {
-      if (!m2.keyState[ch] || rank[result[i]] > rank[m2.keyState[ch]]) m2.keyState[ch] = result[i];
-    });
-    document.querySelectorAll("#m2-keys .key").forEach((k) => {
-      const st = m2.keyState[k.dataset.key];
-      k.classList.remove("crit", "bounce", "miss");
-      if (st) k.classList.add(st);
-    });
+  setTimeout(
+    () => {
+      // atualiza o teclado (crítico > ricochete > ausente)
+      const rank = { miss: 1, bounce: 2, crit: 3 };
+      [...guess].forEach((ch, i) => {
+        if (!m2.keyState[ch] || rank[result[i]] > rank[m2.keyState[ch]])
+          m2.keyState[ch] = result[i];
+      });
+      document.querySelectorAll("#m2-keys .key").forEach((k) => {
+        const st = m2.keyState[k.dataset.key];
+        k.classList.remove("crit", "bounce", "miss");
+        if (st) k.classList.add(st);
+      });
 
-    const won = guess === m2.word;
-    m2.busy = false;
-    if (won) return m2Finish(true);
-    m2.row++;
-    m2.cur = "";
-    if (m2.row >= M2_TRIES) return m2Finish(false);
+      const won = guess === m2.word;
+      m2.busy = false;
+      if (won) return m2Finish(true);
+      m2.row++;
+      m2.cur = "";
+      if (m2.row >= M2_TRIES) return m2Finish(false);
 
-    m2UpdateShot();
-    const crits = result.filter((r) => r === "crit").length;
-    const bounces = result.filter((r) => r === "bounce").length;
-    m2SetPose("miss", 1300);
-    m2Say(`Disparo falhou: ${crits} crítico(s) e ${bounces} ricochete(s). Restam ${M2_TRIES - m2.row}. Que droga Dante! Como você conseguiu pensar em alguma senha que não seja "Pizza"?`);
-  }, tiles.length * 160 + 350);
+      m2UpdateShot();
+      const crits = result.filter((r) => r === "crit").length;
+      const bounces = result.filter((r) => r === "bounce").length;
+      m2SetPose("miss", 1300);
+      m2Say(
+        `Disparo falhou: ${crits} crítico(s) e ${bounces} ricochete(s). Restam ${M2_TRIES - m2.row}. Que droga Dante! Como você conseguiu pensar em alguma senha que não seja "Pizza"?`,
+      );
+    },
+    tiles.length * 160 + 350,
+  );
 }
 
 function m2Finish(won) {
   m2.over = true;
   const used = won ? m2.row + 1 : M2_TRIES;
   if (won) {
-    m2.wins++; m2.streak++;
+    m2.wins++;
+    m2.streak++;
     m2SetPose("win", 0);
-    const rank = used <= 2 ? "SSS" : used === 3 ? "SS" : used === 4 ? "S" : used === 5 ? "A" : "B";
+    const rank =
+      used <= 2
+        ? "SSS"
+        : used === 3
+          ? "SS"
+          : used === 4
+            ? "S"
+            : used === 5
+              ? "A"
+              : "B";
     flashRank(rank, `RANK ${rank}!`);
-    m2Say("Consegui! Eu sabia que o Dante não ia ser inteligente o suficiente pra colocar uma senha dificil.");
-    $("m2-msg").textContent = `ACESSO LIBERADO em ${used} disparo(s). Rank ${rank}.`;
-    $("victory2-text").textContent = `Acesso liberado em ${used} disparo(s). Rank ${rank}.`;
-    setTimeout(() => { if (m2.over && !$("game2").classList.contains("hidden")) $("victory2").classList.remove("hidden"); }, 1100);
+    m2Say(
+      "Consegui! Eu sabia que o Dante não ia ser inteligente o suficiente pra colocar uma senha dificil.",
+    );
+    $("m2-msg").textContent =
+      `ACESSO LIBERADO em ${used} disparo(s). Rank ${rank}.`;
+    $("victory2-text").textContent =
+      `Acesso liberado em ${used} disparo(s). Rank ${rank}.`;
+    setTimeout(() => {
+      if (m2.over && !$("game2").classList.contains("hidden"))
+        $("victory2").classList.remove("hidden");
+    }, 1100);
   } else {
-    m2.losses++; m2.streak = 0;
+    m2.losses++;
+    m2.streak = 0;
     m2SetPose("miss", 0);
-    m2Say("O sistema bloqueou o arsenal… Eu vou matar o Dante por ele colocar uma senha tão dificil.");
+    m2Say(
+      "O sistema bloqueou o arsenal… Eu vou matar o Dante por ele colocar uma senha tão dificil.",
+    );
     $("m2-msg").textContent = `SISTEMA BLOQUEADO. A senha era: ${m2.word}.`;
   }
   m2.row = Math.min(m2.row, M2_TRIES - 1);
@@ -856,46 +1141,76 @@ function m2UpdateStats() {
 }
 
 function initMode2() {
-  $("m2-new").addEventListener("click", (e) => { m2NewRound(); e.currentTarget.blur(); });
+  $("m2-new").addEventListener("click", (e) => {
+    m2NewRound();
+    e.currentTarget.blur();
+  });
   document.addEventListener("keydown", (e) => {
     if ($("game2").classList.contains("hidden")) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
-    if (e.key === "Enter") { e.preventDefault(); m2Submit(); }
-    else if (e.key === "Backspace") { e.preventDefault(); m2Back(); }
-    else if (/^[a-zA-Z]$/.test(e.key)) m2Type(e.key.toUpperCase());
+    if (e.key === "Enter") {
+      e.preventDefault();
+      m2Submit();
+    } else if (e.key === "Backspace") {
+      e.preventDefault();
+      m2Back();
+    } else if (/^[a-zA-Z]$/.test(e.key)) m2Type(e.key.toUpperCase());
   });
 }
 
 /* =========================================================
    MODO 3 — TEMPESTADE DE VERGIL (associação com tempo)
    ========================================================= */
-const M3_GOAL = 10;   // acertos consecutivos para abrir o portal
-const M3_TIME = 10;   // segundos por rodada
+const M3_GOAL = 10; // acertos consecutivos para abrir o portal
+const M3_TIME = 10; // segundos por rodada
 const M3_PENALTY = 2; // pontos perdidos na barra ao errar (ou esgotar o tempo)
 const SECRET_PASSWORD = "LUZ";
 
 const M3_NAMES = {
-  CPU: "CPU", ULA: "ULA", UC: "UC", REGISTRADORES: "Registradores", RAM: "RAM", ROM: "ROM",
-  EEPROM: "EEPROM", FLASH: "Flash", CACHE: "Cache", MEMORIADEMASSA: "Memória de massa",
-  DMA: "DMA", ADDRESSBUS: "Address bus", DATABUS: "Data bus",
-  MICROCONTROLADOR: "Microcontrolador", DUALCORE: "Dual core", QUADCORE: "Quad core",
+  CPU: "CPU",
+  ULA: "ULA",
+  UC: "UC",
+  REGISTRADORES: "Registradores",
+  RAM: "RAM",
+  ROM: "ROM",
+  EEPROM: "EEPROM",
+  FLASH: "Flash",
+  CACHE: "Cache",
+  MEMORIADEMASSA: "Memória de massa",
+  DMA: "DMA",
+  ADDRESSBUS: "Address bus",
+  DATABUS: "Data bus",
+  MICROCONTROLADOR: "Microcontrolador",
+  DUALCORE: "Dual core",
+  QUADCORE: "Quad core",
 };
 
 const m3 = {
-  started: false, running: false, over: false, lock: false,
-  streak: 0, left: M3_TIME, word: "", options: [], bag: [], poseTimer: null,
+  started: false,
+  running: false,
+  over: false,
+  lock: false,
+  streak: 0,
+  left: M3_TIME,
+  word: "",
+  options: [],
+  bag: [],
+  poseTimer: null,
 };
 
-function m3Say(t) { $("m3-speech").textContent = t; }
+function m3Say(t) {
+  $("m3-speech").textContent = t;
+}
 
 function m3SetPose(pose, ms) {
   const img = $("hero3-main");
   const slot = img.closest(".slot");
   clearTimeout(m3.poseTimer);
-  const key = pose === "cut" ? "rivalCut" : pose === "miss" ? "rivalMiss" : "rivalIdle";
+  const key =
+    pose === "cut" ? "rivalCut" : pose === "miss" ? "rivalMiss" : "rivalIdle";
   img.dataset.fallback = pose === "idle" ? "" : "rivalIdle";
   loadSprite(img, key);
-  slot.classList.toggle("pose-win", pose === "cut");
+  slot.classList.toggle("pose-cut", pose === "cut");
   slot.classList.toggle("pose-miss", pose === "miss");
   if (ms) m3.poseTimer = setTimeout(() => m3SetPose("idle"), ms);
 }
@@ -926,7 +1241,9 @@ function m3Distractors(word, clue) {
   const clueN = normText(clue);
   const all = WORDS.map((w) => w.word).filter((w) => w !== word);
   // prefere distratores que não aparecem escritos na própria pista
-  const fair = all.filter((w) => !new RegExp(`\\b${normText(M3_NAMES[w])}\\b`).test(clueN));
+  const fair = all.filter(
+    (w) => !new RegExp(`\\b${normText(M3_NAMES[w])}\\b`).test(clueN),
+  );
   return shuffle(fair.length >= 2 ? fair : all).slice(0, 2);
 }
 
@@ -940,7 +1257,9 @@ function m3BuildFocus() {
 }
 
 function m3UpdateHud() {
-  [...$("m3-focus").children].forEach((seg, i) => seg.classList.toggle("on", i < m3.streak));
+  [...$("m3-focus").children].forEach((seg, i) =>
+    seg.classList.toggle("on", i < m3.streak),
+  );
   $("m3-count").textContent = `${m3.streak} de ${M3_GOAL}`;
   const pct = Math.max(0, (m3.left / M3_TIME) * 100);
   const bar = $("m3-time-bar");
@@ -950,7 +1269,11 @@ function m3UpdateHud() {
 }
 
 function m3Reset() {
-  m3.started = true; m3.over = false; m3.streak = 0; m3.bag = []; m3.word = "";
+  m3.started = true;
+  m3.over = false;
+  m3.streak = 0;
+  m3.bag = [];
+  m3.word = "";
   m3BuildFocus();
   m3NewRound();
 }
@@ -959,7 +1282,9 @@ function m3NewRound() {
   m3.word = m3NextWord();
   const clue = WORDS.find((w) => w.word === m3.word).clue;
   m3.options = shuffle([m3.word, ...m3Distractors(m3.word, clue)]);
-  m3.left = M3_TIME; m3.lock = false; m3.running = true;
+  m3.left = M3_TIME;
+  m3.lock = false;
+  m3.running = true;
 
   $("m3-clue").textContent = clue;
   $("m3-msg").textContent = "";
@@ -971,7 +1296,10 @@ function m3NewRound() {
     b.className = "m3-opt";
     b.dataset.i = i;
     b.innerHTML = `<small>${i + 1}</small>${M3_NAMES[w]}`;
-    b.addEventListener("click", () => { m3Answer(i); b.blur(); });
+    b.addEventListener("click", () => {
+      m3Answer(i);
+      b.blur();
+    });
     box.appendChild(b);
   });
   m3SetPose("idle");
@@ -980,7 +1308,8 @@ function m3NewRound() {
 
 function m3Answer(i) {
   if (m3.lock || !m3.running) return;
-  m3.lock = true; m3.running = false;
+  m3.lock = true;
+  m3.running = false;
   const right = m3.options.indexOf(m3.word);
   const hit = i === right;
   [...$("m3-opts").children].forEach((b, k) => {
@@ -991,7 +1320,7 @@ function m3Answer(i) {
 
   if (hit) {
     m3.streak++;
-    m3SetPose("cut", 700);
+    m3SetPose("cut", 850);
     m3Say("Corte limpo, a Yamato nunca errou nenhum corte.");
     $("m3-msg").textContent = "CORTE PERFEITO!";
     m3UpdateHud();
@@ -1000,40 +1329,62 @@ function m3Answer(i) {
   } else {
     m3.streak = Math.max(0, m3.streak - M3_PENALTY); // errar tira 2 pontos da barra
     m3SetPose("miss", 1300);
-    m3Say(i === null ? "Dante... Você e o tempo sempre foram meus maiores inimigos... e eu irei superar ambos." : "Frequência errada. Droga, eu preciso de mais poder...");
+    m3Say(
+      i === null
+        ? "Dante... Você e o tempo sempre foram meus maiores inimigos, e eu irei superar ambos."
+        : "Frequência errada. Droga, eu preciso de mais poder...",
+    );
     $("m3-msg").textContent =
-      (i === null ? "TEMPO ESGOTADO. " : "ERROU. ") + `Era: ${M3_NAMES[m3.word]}. Concentração −${M3_PENALTY}.`;
+      (i === null ? "TEMPO ESGOTADO. " : "ERROU. ") +
+      `Era: ${M3_NAMES[m3.word]}. Concentração −${M3_PENALTY}.`;
     m3UpdateHud();
     setTimeout(m3NewRound, 1700);
   }
 }
 
 function m3Win() {
-  m3.over = true; m3.running = false;
+  m3.over = true;
+  m3.running = false;
   m3SetPose("cut", 0);
   m3Say("O portal se abriu. Hora de sumir daqui.");
   $("victory3").classList.remove("hidden");
 }
 
-function goMode3() { showScreen(m3.started ? "game3" : "intro3"); }
+function goMode3() {
+  showScreen(m3.started ? "game3" : "intro3");
+}
 function startMode3() {
   showScreen("game3");
   if (!m3.started || m3.over) m3Reset(); // senão, retoma a rodada em andamento
 }
 
 function initMode3() {
+  ["rivalIdle", "rivalCut", "rivalMiss"].forEach((k) => {
+    new Image().src = ASSETS[k];
+  }); 
   $("mode-3").addEventListener("click", () => showScreen("intro3"));
   $("nav-m3").addEventListener("click", goMode3);
   $("btn-back3").addEventListener("click", () => showScreen("menu"));
   $("btn-start3").addEventListener("click", startMode3);
-  $("btn-again3").addEventListener("click", () => { $("victory3").classList.add("hidden"); m3Reset(); });
-  $("btn-menu3").addEventListener("click", () => { $("victory3").classList.add("hidden"); showScreen("menu"); });
+  $("btn-again3").addEventListener("click", () => {
+    $("victory3").classList.add("hidden");
+    m3Reset();
+  });
+  $("btn-menu3").addEventListener("click", () => {
+    $("victory3").classList.add("hidden");
+    showScreen("menu");
+  });
 
   // cronômetro regressivo (só corre enquanto a tela do Modo 3 está visível)
   setInterval(() => {
     if (!m3.running || $("game3").classList.contains("hidden")) return;
     m3.left -= 0.1;
-    if (m3.left <= 0) { m3.left = 0; m3UpdateHud(); m3Answer(null); return; }
+    if (m3.left <= 0) {
+      m3.left = 0;
+      m3UpdateHud();
+      m3Answer(null);
+      return;
+    }
     m3UpdateHud();
   }, 100);
 
@@ -1044,7 +1395,10 @@ function initMode3() {
 
   // Modo Secreto / Protocolo Jackpot
   $("mode-secret").addEventListener("click", () => {
-    if (secretUnlocked) { showScreen("introSecret"); return; }
+    if (secretUnlocked) {
+      showScreen("introSecret");
+      return;
+    }
     $("secret-msg").textContent = "";
     $("secret-input").value = "";
     showScreen("secret");
@@ -1062,12 +1416,20 @@ function initMode3() {
     }
   });
   $("btn-back-js").addEventListener("click", () => showScreen("menu"));
-  $("btn-start-js").addEventListener("click", () => runDialogue(DIALOGUE_START, "start", startBoss));
-  $("d-next").addEventListener("click", (e) => { nextDialogue(); e.currentTarget.blur(); });
+  $("btn-start-js").addEventListener("click", () =>
+    runDialogue(DIALOGUE_START, "start", startBoss),
+  );
+  $("d-next").addEventListener("click", (e) => {
+    nextDialogue();
+    e.currentTarget.blur();
+  });
   document.addEventListener("keydown", (e) => {
     if ($("dialogue").classList.contains("hidden")) return;
     if (e.target.id === "d-next") return; // o próprio botão já trata Enter e espaço
-    if (e.key === "Enter" || e.key === " " || e.key === "ArrowRight") { e.preventDefault(); nextDialogue(); }
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowRight") {
+      e.preventDefault();
+      nextDialogue();
+    }
   });
 }
 
@@ -1088,28 +1450,82 @@ function unlockSecret() {
 // ---------- Diálogos (abertura e final) ----------
 // Abertura: o rival começa e os dois alternam (4 falas de cada).
 const DIALOGUE_START = [
-  { who: "rival", text: "Hmph, então você me seguiu pela fenda. Você não entende nada do que está acontecendo, entende? Tudo isso pra você... não significa nada." },
-  { who: "hero", text: "É verdade, desculpa ser o irmão que precisa limpar a caquinha que o outro faz nas brincadeirinhas dele de ficar mais fortinho. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?" },
-  { who: "rival", text: "Estamos no inferno dos servidores. Cada fio aqui respira e obedece a uma única vontade. Meu plano era despertar esse ser e o destruir sozinho, assim eu iria me provar ser alguém mais forte que você e vin-" },
-  { who: "hero", text: "Tá falando sério?! Então seu plano era corromper o mainframe, dar mais energia pra esse bixo feio pra ele acordar, só pra matar ele? O que esse bixo feio tem de tão especial pra você querer tanto matar ele?" },
-  { who: "rival", text: "... Foi essa coisa que matou o nosso pai, Sparda, o herói do inferno. Carregamos o sangue e legado do demônio mais poderoso que já existiu, e foi essa coisa que, sozinha, deu fim ao herói do inferno. Você entende Dante? Nem todo mundo consegue seguir em frente, e se você não tem coragem o suficiente para vingar o nosso pai, então saia da minha frente e observe, eu vou matar essa coisa feia sozinho, aqui e agora!" },
-  { who: "hero", text: "... tá, isso muda tudo. Por que você sempre guarda todos os segredos pra você? Por que essa ambição de poder? Você sempre insistiu em lidar com tudo sozinho, mesmo sabendo que eu iria até a última camada do inferno se fosse por você. Sabe, você me lembra a nossa mãe... Enfim, sinto muito mas eu não tô vendo nenhuma saida, entãooo acho que estamos presos aqui, e se é assim, eu não vou deixar meu irmãozinho lutar sozinho. " },
-  { who: "rival", text: "Você é muito mais lento, fraco e esperto do que eu. Se você for lutar, tenta não ficar no meu caminho." },
-  { who: "hero", text: "Tá tá, mesmo papo de sempre, então vamos começar logo! EI, COISA FEIA! Nós somos os filhos de Sparda, e em vingança ao nosso pai, é melhor você preparar suas últimas palavras... ou pensamentos, sei lá se você consegue falar. Mas é melhor se preparar, porque você vai morrer aqui e agora!" },
+  {
+    who: "rival",
+    text: "Hmph, então você me seguiu pela fenda. Você não entende nada do que está acontecendo, entende? Tudo isso pra você... não significa nada.",
+  },
+  {
+    who: "hero",
+    text: "É verdade, desculpa ser o irmão que precisa limpar a caquinha que o outro faz nas brincadeirinhas dele de ficar mais fortinho. Fala sério Vergil, olha o que você está fazendo, olha onde estamos!!! Aliás, onde é que a gente tá?",
+  },
+  {
+    who: "rival",
+    text: "Estamos no inferno dos servidores. Cada fio aqui respira e obedece a uma única vontade. Meu plano era despertar esse ser e o destruir sozinho, assim eu iria me provar ser alguém mais forte que você e vin-",
+  },
+  {
+    who: "hero",
+    text: "Tá falando sério?! Então seu plano era corromper o mainframe, dar mais energia pra esse bixo feio pra ele acordar, só pra matar ele? O que esse bixo feio tem de tão especial pra você querer tanto matar ele?",
+  },
+  {
+    who: "rival",
+    text: "... Foi essa coisa que matou o nosso pai, Sparda, o herói do inferno. Carregamos o sangue e legado do demônio mais poderoso que já existiu, e foi essa coisa que, sozinha, deu fim ao herói do inferno. Você entende Dante? Nem todo mundo consegue seguir em frente, e se você não tem coragem o suficiente para vingar o nosso pai, então saia da minha frente e observe, eu vou matar essa coisa feia sozinho, aqui e agora!",
+  },
+  {
+    who: "hero",
+    text: "... tá, isso muda tudo. Por que você sempre guarda todos os segredos pra você? Por que essa ambição de poder? Você sempre insistiu em lidar com tudo sozinho, mesmo sabendo que eu iria até a última camada do inferno se fosse por você. Sabe, você me lembra a nossa mãe... Enfim, sinto muito mas eu não tô vendo nenhuma saida, entãooo acho que estamos presos aqui, e se é assim, eu não vou deixar meu irmãozinho lutar sozinho. ",
+  },
+  {
+    who: "rival",
+    text: "Você é muito mais lento, fraco e esperto do que eu. Se você for lutar, tenta não ficar no meu caminho.",
+  },
+  {
+    who: "hero",
+    text: "Tá tá, mesmo papo de sempre, então vamos começar logo! EI, COISA FEIA! Nós somos os filhos de Sparda, e em vingança ao nosso pai, é melhor você preparar suas últimas palavras... ou pensamentos, sei lá se você consegue falar. Mas é melhor se preparar, porque você vai morrer aqui e agora!",
+  },
 ];
 
 // Final: caçador 4 falas, rival 3 e caçadora 2. A caçadora só aparece a partir da 5ª fala.
 const DIALOGUE_END = [
-  { who: "hero", text: "Finalmente essa coisa parou de se mexer, estava realmente achando que a gente não ia conseguir sair dessa." },
-  { who: "rival", text: "A gente conseguiu... será se nosso pai está orgulhoso?" },
-  { who: "hero", text: "... Talvez, mas ele provavelmente só está orgulhoso de mim, porque olha, teve umas 3 vezes que eu salvei o seu coro da morte certa! Você tá me devendo papo de pelo menos 6 pizzas quando a gente voltar." },
-  { who: "rival", text: "Ha, você deve ser cego e surdo irmão, porque bastou eu parar de atacar por meio segundo e você quase foi esmagado por ele umas 12 vezes. É você quem está me devendo irmão, e se você quiser resolver isso, então teremos que nos enfrentar ago-" },
-  { who: "huntress", text: "EI! O QUE VOCÊS ESTÃO FAZENDO?! EU TO TENTANDO ENTRAR EM CONTATO COM VOCÊ A QUASE 6 HORAS DANTE!!! A CIDADE INTEIRA TÁ PARADA POR CONTA DO MAINFRAME CORROMPIDO, OS CLIENTES ESTÂO MALUCOS!!! EU PRECISO QUE VOCÊ VOLTE LOGO E ME AJUDE A LIMPAR ESSA CAGADA!" },
-  { who: "hero", text: "E aí Lady! Você ficou sumida, achei que nem ia aparecer pra festa. E nossa, a gente lutou contra essa coisa feia durante 6 horas? Isso deve explicar a fome que eu tô sentindo. Enfim, preciso limpar a cagada que você fez Vergil, quer ir comigo? Sabe, ia ser legal ter você comigo, como nos velhos tempos. E seria bem tranquilizante saber que meu irmão não tá bolando um plano maléfico sinistro que pode matar milhares de pessoa só pra ficar mais fortinho." },
-  { who: "huntress", text: "EU FIQUEI SUMIDA PORQUE UM ANIMAL, QUE SEMPRE USA 'PIZZA' PARA TODAS AS SENHAS, DECIDIU DO NADA COLOCAR UMA SENHA NOVA NO ARSENAL!!! E O VERGIL PRECISA VIR TAMBÉM! ELE SABE O CÓDIGO E O QUE FAZER PARA FAZER AS COISAS VOLTAREM AO NORMAL!" },
-  { who: "rival", text: "Eu não irei voltar com você. Irei abrir o portal para você, mas assim que você entrar, não espere me ver novamente por um bom tempo irmão. Mas para ajudar, você só precisa desinstalar o launcher da Epic Games do mainframe. O mainframe nem está corrompido, o launcher da Epic Games sozinho tá consumindo todo o processamento e memória." },
-  { who: "huntress", text: "... tá falando sério? O grande problema, que parou a cidade inteira e que poderia causar um desastre mundial em maior escala, é um launcher de uma industria de jogos?" },
-  { who: "hero", text: "Ha, engraçado, e eu só tenho ele instalado por causa dos jogos de graça e Fortnite. Enfim, vamos sair daqui logo, esse cérebro robô sinistro tá começando a feder." },
+  {
+    who: "hero",
+    text: "Finalmente essa coisa parou de se mexer, estava realmente achando que a gente não ia conseguir sair dessa.",
+  },
+  {
+    who: "rival",
+    text: "A gente conseguiu... será se nosso pai está orgulhoso?",
+  },
+  {
+    who: "hero",
+    text: "... Talvez, mas ele provavelmente só está orgulhoso de mim, porque olha, teve umas 3 vezes que eu salvei o seu coro da morte certa! Você tá me devendo papo de pelo menos 6 pizzas quando a gente voltar.",
+  },
+  {
+    who: "rival",
+    text: "Ha, você deve ser cego e surdo irmão, porque bastou eu parar de atacar por meio segundo e você quase foi esmagado por ele umas 12 vezes. É você quem está me devendo irmão, e se você quiser resolver isso, então teremos que nos enfrentar ago-",
+  },
+  {
+    who: "huntress",
+    text: "EI! O QUE VOCÊS ESTÃO FAZENDO?! EU TO TENTANDO ENTRAR EM CONTATO COM VOCÊ A QUASE 6 HORAS DANTE!!! A CIDADE INTEIRA TÁ PARADA POR CONTA DO MAINFRAME CORROMPIDO, OS CLIENTES ESTÂO MALUCOS!!! EU PRECISO QUE VOCÊ VOLTE LOGO E ME AJUDE A LIMPAR ESSA CAGADA!",
+  },
+  {
+    who: "hero",
+    text: "E aí Lady! Você ficou sumida, achei que nem ia aparecer pra festa. E nossa, a gente lutou contra essa coisa feia durante 6 horas? Isso deve explicar a fome que eu tô sentindo. Enfim, preciso limpar a cagada que você fez Vergil, quer ir comigo? Sabe, ia ser legal ter você comigo, como nos velhos tempos. E seria bem tranquilizante saber que meu irmão não tá bolando um plano maléfico sinistro que pode matar milhares de pessoa só pra ficar mais fortinho.",
+  },
+  {
+    who: "huntress",
+    text: "EU FIQUEI SUMIDA PORQUE UM ANIMAL, QUE SEMPRE USA 'PIZZA' PARA TODAS AS SENHAS, DECIDIU DO NADA COLOCAR UMA SENHA NOVA NO ARSENAL!!! E O VERGIL PRECISA VIR TAMBÉM! ELE SABE O CÓDIGO E O QUE ESTÁ CORROMPENDO O MAINFRAME!",
+  },
+  {
+    who: "rival",
+    text: "Eu não irei voltar com você, Dante. Irei abrir o portal para você, mas assim que entrar, não espere me ver novamente por um bom tempo irmão. Mas para ajudar, você só precisa desinstalar o launcher da Epic Games do mainframe. O mainframe nem está corrompido, o launcher da Epic Games sozinho tá consumindo todo o processamento e memória.",
+  },
+  {
+    who: "huntress",
+    text: "... tá falando sério? O grande problema, que parou a cidade inteira e que poderia causar um desastre mundial em maior escala, é um launcher de uma industria de jogos?",
+  },
+  {
+    who: "hero",
+    text: "Ha, engraçado, e eu só tenho ele instalado por causa dos jogos de graça e Fortnite. Enfim, vamos sair daqui logo, esse cérebro robô sinistro tá começando a feder.",
+  },
 ];
 
 const DLG_SPEAKERS = {
@@ -1118,7 +1534,10 @@ const DLG_SPEAKERS = {
   huntress: { name: "Lady", cls: "is-huntress", side: "d-center" },
 };
 const DLG_IMAGES = {
-  start: { left: ["dlgRival", "rival-dialogo-secreto.png"], right: ["dlgHero", "protagonista-dialogo-secreto.png"] },
+  start: {
+    left: ["dlgRival", "rival-dialogo-secreto.png"],
+    right: ["dlgHero", "protagonista-dialogo-secreto.png"],
+  },
   end: {
     left: ["dlgRivalEnd", "rival-dialogo-final.png"],
     right: ["dlgHeroEnd", "protagonista-dialogo-final.png"],
@@ -1152,13 +1571,18 @@ function showLine(i) {
   $("d-name").textContent = sp.name;
   $("d-name").className = "d-name " + sp.cls;
   $("d-count").textContent = `${i + 1} / ${dlg.lines.length}`;
-  ["d-left", "d-right", "d-center"].forEach((id) => $(id).classList.toggle("speaking", id === sp.side));
+  ["d-left", "d-right", "d-center"].forEach((id) =>
+    $(id).classList.toggle("speaking", id === sp.side),
+  );
   // a Lady só aparece a partir da primeira fala dela
   if (dlg.mode === "end") {
-    const appeared = dlg.lines.slice(0, i + 1).some((l) => l.who === "huntress");
+    const appeared = dlg.lines
+      .slice(0, i + 1)
+      .some((l) => l.who === "huntress");
     $("d-center").style.visibility = appeared ? "visible" : "hidden";
   }
-  $("d-next").textContent = i === dlg.lines.length - 1 ? "ENCERRAR ✔" : "PRÓXIMO DIÁLOGO ▶";
+  $("d-next").textContent =
+    i === dlg.lines.length - 1 ? "ENCERRAR ✔" : "PRÓXIMO DIÁLOGO ▶";
 
   // texto digitado; apertar de novo enquanto digita mostra a fala inteira
   clearInterval(dlg.timer);
@@ -1201,18 +1625,33 @@ const BOSS_LIVES = 3;
 const SYN_MAX = 3;
 
 const boss = {
-  hp: BOSS_HP, lives: BOSS_LIVES, charges: 0, active: false,
-  turn: "hero", word: "", bag: [], lock: false, over: true, options: [], timer: null,
+  hp: BOSS_HP,
+  lives: BOSS_LIVES,
+  charges: 0,
+  active: false,
+  turn: "hero",
+  word: "",
+  bag: [],
+  lock: false,
+  over: true,
+  options: [],
+  timer: null,
 };
 
-const bossSet = (cond, ms, fn) => { boss.timer = setTimeout(fn, ms); };
+const bossSet = (cond, ms, fn) => {
+  boss.timer = setTimeout(fn, ms);
+};
 
 function bossBuildBars() {
-  const hp = $("boss-hp"); hp.innerHTML = "";
+  const hp = $("boss-hp");
+  hp.innerHTML = "";
   for (let i = 0; i < BOSS_HP; i++) hp.appendChild(document.createElement("i"));
-  const syn = $("boss-syn"); syn.innerHTML = "";
-  for (let i = 0; i < SYN_MAX; i++) syn.appendChild(document.createElement("i"));
-  const lives = $("boss-lives"); lives.innerHTML = "";
+  const syn = $("boss-syn");
+  syn.innerHTML = "";
+  for (let i = 0; i < SYN_MAX; i++)
+    syn.appendChild(document.createElement("i"));
+  const lives = $("boss-lives");
+  lives.innerHTML = "";
   for (let i = 0; i < BOSS_LIVES; i++) {
     const s = document.createElement("span");
     s.textContent = "♥";
@@ -1221,19 +1660,33 @@ function bossBuildBars() {
 }
 
 function bossRender() {
-  [...$("boss-hp").children].forEach((seg, i) => seg.classList.toggle("on", i < boss.hp));
+  [...$("boss-hp").children].forEach((seg, i) =>
+    seg.classList.toggle("on", i < boss.hp),
+  );
   $("boss-hp-text").textContent = `HP ${boss.hp} / ${BOSS_HP}`;
-  [...$("boss-lives").children].forEach((h, i) => h.classList.toggle("lost", i >= boss.lives));
-  [...$("boss-syn").children].forEach((seg, i) => seg.classList.toggle("on", i < boss.charges));
+  [...$("boss-lives").children].forEach((h, i) =>
+    h.classList.toggle("lost", i >= boss.lives),
+  );
+  [...$("boss-syn").children].forEach((seg, i) =>
+    seg.classList.toggle("on", i < boss.charges),
+  );
   const btn = $("boss-syn-btn");
-  btn.disabled = !(boss.charges >= SYN_MAX && !boss.active && !boss.lock && !boss.over);
-  btn.textContent = boss.active ? "SINERGIA ATIVA! (PRÓXIMO ACERTO ×3)" : "ATIVAR SINERGIA (JACKPOT)";
+  btn.disabled = !(
+    boss.charges >= SYN_MAX &&
+    !boss.active &&
+    !boss.lock &&
+    !boss.over
+  );
+  btn.textContent = boss.active
+    ? "SINERGIA ATIVA! (PRÓXIMO ACERTO ×3)"
+    : "ATIVAR SINERGIA (JACKPOT)";
   $("boss-hero-box").classList.toggle("syn-on", boss.active);
   $("boss-rival-box").classList.toggle("syn-on", boss.active);
 }
 
 function bossSprites() {
-  const h = $("boss-hero-img"), r = $("boss-rival-img");
+  const h = $("boss-hero-img"),
+    r = $("boss-rival-img");
   h.dataset.fallback = boss.active ? "bossHero" : "";
   r.dataset.fallback = boss.active ? "bossRival" : "";
   loadSprite(h, boss.active ? "heroSyn" : "bossHero");
@@ -1250,7 +1703,8 @@ function bossBossPose(hit) {
 function bossNextWord() {
   if (!boss.bag.length) {
     boss.bag = shuffle(WORDS.map((w) => w.word));
-    if (boss.bag[boss.bag.length - 1] === boss.word) boss.bag.unshift(boss.bag.pop());
+    if (boss.bag[boss.bag.length - 1] === boss.word)
+      boss.bag.unshift(boss.bag.pop());
   }
   return boss.bag.pop();
 }
@@ -1260,8 +1714,15 @@ function normAnswer(t) {
 }
 
 function startBoss() {
-  boss.hp = BOSS_HP; boss.lives = BOSS_LIVES; boss.charges = 0; boss.active = false;
-  boss.turn = "rival"; boss.bag = []; boss.word = ""; boss.over = false; boss.lock = false;
+  boss.hp = BOSS_HP;
+  boss.lives = BOSS_LIVES;
+  boss.charges = 0;
+  boss.active = false;
+  boss.turn = "rival";
+  boss.bag = [];
+  boss.word = "";
+  boss.over = false;
+  boss.lock = false;
   ["boss-win", "boss-lose"].forEach((id) => $(id).classList.add("hidden"));
   showScreen("boss");
   bossBuildBars();
@@ -1277,9 +1738,12 @@ function bossNextTurn() {
   const w = WORDS.find((x) => x.word === boss.word);
   const isHero = boss.turn === "hero";
 
-  $("boss-q").className = "card boss-q " + (isHero ? "turn-hero" : "turn-rival");
+  $("boss-q").className =
+    "card boss-q " + (isHero ? "turn-hero" : "turn-rival");
   $("boss-turn").className = "boss-turn " + (isHero ? "hero" : "rival");
-  $("boss-turn").textContent = isHero ? "TURNO DE DANTE · DIGITE A PALAVRA EXATA" : "TURNO DE VERGIL · ESCOLHA A DEFINIÇÃO CERTA";
+  $("boss-turn").textContent = isHero
+    ? "TURNO DE DANTE · DIGITE A PALAVRA EXATA"
+    : "TURNO DE VERGIL · ESCOLHA A DEFINIÇÃO CERTA";
   $("boss-msg").textContent = "";
   $("boss-form").style.display = isHero ? "" : "none";
   $("boss-opts").style.display = isHero ? "none" : "";
@@ -1291,7 +1755,9 @@ function bossNextTurn() {
     $("boss-input").focus();
   } else {
     $("boss-prompt").textContent = M3_NAMES[w.word];
-    const others = shuffle(WORDS.filter((x) => x.word !== w.word && x.clue !== w.clue)).slice(0, 2);
+    const others = shuffle(
+      WORDS.filter((x) => x.word !== w.word && x.clue !== w.clue),
+    ).slice(0, 2);
     boss.options = shuffle([w.clue, ...others.map((x) => x.clue)]);
     const box = $("boss-opts");
     box.innerHTML = "";
@@ -1301,7 +1767,10 @@ function bossNextTurn() {
       b.className = "m3-opt boss-def";
       b.dataset.i = i;
       b.innerHTML = `<small>${i + 1}</small>${def}`;
-      b.addEventListener("click", () => { bossAnswerOption(i); b.blur(); });
+      b.addEventListener("click", () => {
+        bossAnswerOption(i);
+        b.blur();
+      });
       box.appendChild(b);
     });
   }
@@ -1319,7 +1788,9 @@ function bossAnswerText() {
 
 function bossAnswerOption(i) {
   if (boss.lock || boss.over || boss.turn !== "rival") return;
-  const right = boss.options.indexOf(WORDS.find((x) => x.word === boss.word).clue);
+  const right = boss.options.indexOf(
+    WORDS.find((x) => x.word === boss.word).clue,
+  );
   [...$("boss-opts").children].forEach((b, k) => {
     b.disabled = true;
     if (k === right) b.classList.add("right");
@@ -1356,8 +1827,16 @@ function bossResolve(hit) {
   }
   bossRender();
 
-  if (boss.hp <= 0) { boss.over = true; bossRender(); return bossSet(0, 1100, bossWin); }
-  if (boss.lives <= 0) { boss.over = true; bossRender(); return bossSet(0, 1500, bossLose); }
+  if (boss.hp <= 0) {
+    boss.over = true;
+    bossRender();
+    return bossSet(0, 1100, bossWin);
+  }
+  if (boss.lives <= 0) {
+    boss.over = true;
+    bossRender();
+    return bossSet(0, 1500, bossLose);
+  }
   bossSet(0, wait, bossNextTurn);
 }
 
@@ -1367,7 +1846,8 @@ function bossActivateSynergy() {
   boss.charges = 0; // as cargas são consumidas
   bossSprites();
   bossRender();
-  $("boss-msg").textContent = "SINERGIA ATIVADA! O próximo acerto causa dano triplo.";
+  $("boss-msg").textContent =
+    "SINERGIA ATIVADA! O próximo acerto causa dano triplo.";
 }
 
 function bossWin() {
@@ -1379,16 +1859,30 @@ function bossLose() {
 }
 
 function initBoss() {
-  $("boss-form").addEventListener("submit", (e) => { e.preventDefault(); bossAnswerText(); });
-  $("boss-syn-btn").addEventListener("click", (e) => { bossActivateSynergy(); e.currentTarget.blur(); });
+  $("boss-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    bossAnswerText();
+  });
+  $("boss-syn-btn").addEventListener("click", (e) => {
+    bossActivateSynergy();
+    e.currentTarget.blur();
+  });
   $("btn-retry-boss").addEventListener("click", startBoss);
-  $("btn-menu-boss").addEventListener("click", () => { $("boss-lose").classList.add("hidden"); showScreen("menu"); });
+  $("btn-menu-boss").addEventListener("click", () => {
+    $("boss-lose").classList.add("hidden");
+    showScreen("menu");
+  });
   $("btn-finish-story").addEventListener("click", () => {
     $("boss-win").classList.add("hidden");
     runDialogue(DIALOGUE_END, "end", () => showScreen("menu"));
   });
   document.addEventListener("keydown", (e) => {
-    if ($("boss").classList.contains("hidden") || !$("dialogue").classList.contains("hidden")) return;
-    if (["1", "2", "3"].includes(e.key) && boss.turn === "rival") bossAnswerOption(Number(e.key) - 1);
+    if (
+      $("boss").classList.contains("hidden") ||
+      !$("dialogue").classList.contains("hidden")
+    )
+      return;
+    if (["1", "2", "3"].includes(e.key) && boss.turn === "rival")
+      bossAnswerOption(Number(e.key) - 1);
   });
 }
